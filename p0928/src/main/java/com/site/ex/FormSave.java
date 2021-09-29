@@ -14,6 +14,7 @@ public class FormSave extends HttpServlet {
 
 	protected void doAction(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		//한글처리
 		request.setCharacterEncoding("utf-8");
 		System.out.println("doAction");
 		//프로그램 구현
@@ -28,9 +29,10 @@ public class FormSave extends HttpServlet {
 		writer.println("<html>");
 		writer.println("<head></head>");
 		writer.println("<body>");
-		writer.println("<h3>email1 : </h3>");
-		writer.println("");
-		writer.println("");
+		writer.println("<h3>email1 :"+ email1   +" </h3>");
+		writer.println("<h3>email2 :"+ email2   +" </h3>");
+		writer.println("<h3>pw :"+ pw   +" </h3>");
+		writer.println("<h3>rec :"+ rec   +" </h3>");
 		writer.println("</body>");
 		writer.println("</html>");
 		
