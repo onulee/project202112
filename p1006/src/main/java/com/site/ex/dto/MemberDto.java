@@ -8,7 +8,13 @@ public class MemberDto {
 	String email;
 	String hobby;
 	
-	MemberDto(){}
+	public MemberDto(){}
+	
+	public MemberDto(String id, String pw) {
+		this.id = id;
+		this.pw = pw;
+	}
+
 	public MemberDto(String id, String pw, String name, String email, String hobby) {
 		this.id = id;
 		this.pw = pw;

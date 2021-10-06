@@ -143,6 +143,32 @@ public class MemberDao {
 		return result;
 	}//updateMember
 	
+	//비밀번호수정 - updateMember2
+	public int updateMember2(MemberDto chkDto) {
+		result=0;
+		try {
+			conn = getConnection();
+			sql = "update member set pw=? where id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, chkDto.getPw());
+			pstmt.setString(2, chkDto.getId());
+			//insert,update,delete -> executeUpdate, select -> executeQuery
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) rs.close();
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return result;
+	}//updateMember2
+	
 
 	// login메소드 -> id,pw
 	public int login(String id, String pw) {
