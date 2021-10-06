@@ -67,7 +67,9 @@
 			  %>	
                 <script type="text/javascript">
                   alert("패스워드가 일치하지 않습니다. 패스워드를 확인해주세요!");
-                  history.back();
+                  //location.href="modify.jsp";
+                  window.history.back();
+                  return;
                 </script>	  
 			  <%
 			  }

@@ -1,3 +1,6 @@
+<%@page import="javax.sql.DataSource"%>
+<%@page import="javax.naming.InitialContext"%>
+<%@page import="javax.naming.Context"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -8,6 +11,7 @@
 <html>
 	<head>
 		<%!
+		   DataSource ds;
 		   Connection conn;
 		   PreparedStatement pstmt;
 		   ResultSet rs;
@@ -18,8 +22,15 @@
 		  pw = request.getParameter("pw");
 		
 		  try{
-			  Class.forName("oracle.jdbc.driver.OracleDriver");
-			  conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:java5","scott","tiger");
+			  
+			  
+			  //Class.forName("oracle.jdbc.driver.OracleDriver");
+			  //conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:java5","scott","tiger");
+			  Context context = new InitialContext();
+			  //context.lookup("java:comp/env/설정이름")
+			  ds = (DataSource)context.lookup("java:comp/env/jdbc/Oracle11g");
+			  conn = ds.getConnection();
+			  
 			  String sql = "select * from member where id=? and pw=?";
 			  pstmt = conn.prepareStatement(sql);
 			  pstmt.setString(1, id);
