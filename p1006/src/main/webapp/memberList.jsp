@@ -29,8 +29,8 @@
 	    </tr>
 	    <% for(MemberDto dto:list){ %>   	
 		    <tr>
-		      <td><%=dto.getId() %></td>
-		      <td><%=dto.getPw() %></td>
+		      <td><a href="modify.jsp?id=<%=dto.getId()%>"><%=dto.getId() %></a></td>
+		      <td><a href="pwModify.jsp?id=<%=dto.getId()%>"><%=dto.getPw() %></a></td>
 		      <td><%=dto.getName() %></td>
 		      <td><%=dto.getEmail() %></td>
 		      <td><%=dto.getHobby() %></td>
