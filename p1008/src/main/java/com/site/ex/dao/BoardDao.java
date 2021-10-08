@@ -29,6 +29,7 @@ public class BoardDao {
 	//게시판 전체리스트 메소드
 	public ArrayList<BoardDto> selectBoardAll(){
 		list = new ArrayList<BoardDto>();
+		System.out.println("selectBoardAll Dao호출");
 		
 		try {
 			conn = getConnection();

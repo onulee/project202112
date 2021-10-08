@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("*.do")
+@WebServlet("*.ko")
 public class FrontController extends HttpServlet {
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
      

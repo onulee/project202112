@@ -55,13 +55,8 @@
         <th>작성일</th>
         <th>조회수</th>
       </tr>
-      <%
-		 BoardDao bDao = new BoardDao();
-		 ArrayList<BoardDto> list = bDao.selectBoardAll();
-	  %>
-	  <c:set var="boardList" value="<%=list %>" />
       <!-- 내용부분(forEach 반복) -->
-      <c:forEach items="${boardList}" var="bDto">
+      <c:forEach items="${list}" var="bDto">
 	      <tr>
 	        <td><span class="table-notice">${bDto.bid}</span></td>
 	        <td class="table-title">
