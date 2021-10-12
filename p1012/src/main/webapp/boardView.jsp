@@ -10,6 +10,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/read.css">
+  <script type="text/javascript">
+     function boardDelete(){
+    	 if(confirm("게시글을 삭제하시겠습니까?")){
+    		 //alert("bid : "+${bDto.bid});
+    		 location.href="boardDelete.do?bid="+${bDto.bid};
+    	 }
+     }
+  </script>
 </head>
 <body>
 <section>
@@ -45,7 +53,7 @@
     </table>
 
     <a href="boardList.do"><div class="list">목록</div></a>
-    <a href="boardDelete.do"><div class="list">삭제</div></a>
+    <a href="#" onclick="boardDelete()"><div class="list">삭제</div></a>
     <a href="boardModify.do"><div class="list">수정</div></a>
     <a href="boardReply.do"><div class="list">답변달기</div></a>
   </section>

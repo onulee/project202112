@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.site.ex.service.BService;
+import com.site.ex.service.BServiceDelete;
 import com.site.ex.service.BServiceList;
 import com.site.ex.service.BServiceView;
 import com.site.ex.service.BServiceWrite;
@@ -23,8 +24,10 @@ public class BController extends HttpServlet {
 		System.out.println("doAction");
 		//파일이름을 찾아야 함. - p1012/index.do
 		String uri = request.getRequestURI();  //p1012/index.do
+		System.out.println("uri : "+uri);
 		int cPath = request.getContextPath().length(); //p1012 - 5
 		String fileName = uri.substring(cPath); // /index.do
+		System.out.println("fileName : "+fileName);
 		String page="";
 		BService bService=null;
 		if(fileName.equals("/index.do")) {
@@ -45,10 +48,16 @@ public class BController extends HttpServlet {
 		}else if(fileName.equals("/doBoardWrite.do")) {
 			//bService객체선언
 			bService = new BServiceWrite();
-			System.out.println("controller : "+request.getParameter("bname"));
 			//request 파리미터 데이터 값이 db저장됨.
 			bService.execute(request, response);
 			page="doBoardWrite.jsp";
+		}else if(fileName.equals("/boardDelete.do")) {
+			System.out.println("controller : "+ request.getParameter("bid"));
+			//bService객체선언
+			bService = new BServiceDelete();
+			//request 파리미터 데이터 값이 db저장됨.
+			bService.execute(request, response);
+			page="boardList.do";
 		}
 		
 		

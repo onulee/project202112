@@ -27,7 +27,29 @@ public class BoardDao {
 	private String bname,btitle,bcontent,bupload;
 	private Timestamp bdate;
 	
-	//게시글 저장
+	
+	//게시글 삭제 - delete
+	public void deleteBoard(int ch_bid) {
+		try {
+			conn = getConnection();
+			sql="delete from board where bid=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ch_bid);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}//deleteBoard
+	
+	//게시글 저장-insert
 	public void insertBoardWrite(String ch_bname, String ch_btitle, String ch_bcontent) {
 
 		System.out.println("dao : "+ch_bname);
@@ -166,6 +188,9 @@ public class BoardDao {
 		}
 		return conn;
 	}// getConnection
+
+
+	
 
 
 	
