@@ -49,6 +49,86 @@ public class BoardDao {
 		}
 	}//deleteBoard
 	
+	//게시글 수정-update
+	public void updateBoardModify(int ch_bid, String ch_btitle, String ch_bcontent) {
+		try {
+			conn = getConnection();
+			sql="update board set btitle=?,bcontent=?,bdate=sysdate where bid=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ch_btitle);
+			pstmt.setString(2, ch_bcontent);
+			pstmt.setInt(3, ch_bid);
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}//updateBoardModify
+	
+	
+	//답변글 부모글 bstep보다 큰것은 bstep 1씩증가
+	public void updateBoardStepUp(int ch_bgroup,int ch_bstep) {
+		try {
+			conn = getConnection();
+			sql="update board set bstep=bstep+1 "
+					+ "where bgroup=? and bstep>?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ch_bgroup);
+			pstmt.setInt(2, ch_bstep);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}//updateBoardStepUp
+	
+	
+	//답변글 저장-insert
+	public void insertBoardReply(int ch_bid, String ch_bname, String ch_btitle, String ch_bcontent, int ch_bgroup, int ch_bstep,
+			int ch_bindent) {
+		try {
+			conn = getConnection();
+			sql="insert into board values(b_seq.nextval,"
+					+ "?,?,?,sysdate,0,?,?,?,'1.jpg')";
+			//      + "?,?,?,sysdate,0,b_seq.currval,0,0,'1.jpg')";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ch_bname);
+			pstmt.setString(2, ch_btitle);
+			pstmt.setString(3, ch_bcontent);
+			pstmt.setInt(4, ch_bgroup);
+			pstmt.setInt(5, ch_bstep+1); //bstep=bstep+1
+			pstmt.setInt(6, ch_bindent+1); //bindent=bindent+1
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}//insertBoardReply
+	
+	
 	//게시글 저장-insert
 	public void insertBoardWrite(String ch_bname, String ch_btitle, String ch_bcontent) {
 
@@ -142,7 +222,7 @@ public class BoardDao {
 		try {
 			//connection객체 가져오기
 			conn = getConnection();
-			sql = "select * from board order by bid desc";
+			sql = "select * from board order by bgroup desc, bstep asc";
 			pstmt = conn.prepareStatement(sql);
 			// board의 모든 정보를 가져옴.
 			rs = pstmt.executeQuery();
@@ -188,6 +268,10 @@ public class BoardDao {
 		}
 		return conn;
 	}// getConnection
+
+	
+
+	
 
 
 	

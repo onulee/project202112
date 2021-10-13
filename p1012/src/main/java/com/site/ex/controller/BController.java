@@ -11,7 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.site.ex.service.BService;
 import com.site.ex.service.BServiceDelete;
+import com.site.ex.service.BServiceDoModify;
+import com.site.ex.service.BServiceDoReply;
 import com.site.ex.service.BServiceList;
+import com.site.ex.service.BServiceModify;
+import com.site.ex.service.BServiceReply;
 import com.site.ex.service.BServiceView;
 import com.site.ex.service.BServiceWrite;
 
@@ -29,6 +33,7 @@ public class BController extends HttpServlet {
 		String fileName = uri.substring(cPath); // /index.do
 		System.out.println("fileName : "+fileName);
 		String page="";
+		int flag=0;
 		BService bService=null;
 		if(fileName.equals("/index.do")) {
 			page="index.jsp";
@@ -58,18 +63,44 @@ public class BController extends HttpServlet {
 			//request 파리미터 데이터 값이 db저장됨.
 			bService.execute(request, response);
 			page="boardList.do";
+		}else if(fileName.equals("/boardModify.do")) {
+			//bService객체선언
+			bService = new BServiceModify();
+			//request 파리미터 데이터 값이 db저장됨.
+			bService.execute(request, response);
+			page="boardModify.jsp";
+		}else if(fileName.equals("/doBoardModify.do")) {
+			int bid = Integer.parseInt(request.getParameter("bid"));
+			//bService객체선언
+			bService = new BServiceDoModify();
+			//request 파라미터 데이터 값이 db저장됨
+			bService.execute(request, response);
+			page="boardView.do?bid="+bid;
+		}else if(fileName.equals("/boardReply.do")) {  //답변글
+			//bService객체선언
+			bService = new BServiceReply();
+			//request 파라미터 데이터 값이 db저장됨
+			bService.execute(request, response);
+			page="boardReply.jsp";
+		}else if(fileName.equals("/doBoardReply.do")) { //답변글저장
+			//bService객체선언
+			bService = new BServiceDoReply();
+			//request 파리미터 데이터 값이 db저장됨.
+			bService.execute(request, response);
+			flag=1;
+			response.sendRedirect("boardList.do");
+			//page="boardList.do";
 		}
-		
 		
 		//----------
 		// 페이지 forward기능이 있음. sendRedirect-request,response신규리턴,dispatcher-기존request,response를 그대로 리턴
 		//response.sendRedirect("index.jsp");
-		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-		dispatcher.forward(request, response);
+		if(flag==0) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+			dispatcher.forward(request, response);
+		}
 	
-	}
-	
-	
+	}//doAction
 	
 	
 	//--------------------------

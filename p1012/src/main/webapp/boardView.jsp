@@ -34,7 +34,9 @@
         <th colspan="3">제목</th>
       </tr>
       <tr>
-        <td colspan="3"><strong>${bDto.btitle}</strong></td>
+        <td><strong>${bDto.btitle}</strong></td>
+        <td>날짜</td>
+        <td>${bDto.bdate}</td>
       </tr>
       <tr>
         <td>${bDto.bname}</td>
@@ -43,6 +45,8 @@
       </tr>
       <tr>
         <td colspan="3" class="article">${bDto.bcontent }</td>
+      </tr>
+        <td colspan="3"><strong>파일이름</strong> <span class="separator">|</span>${bDto.bupload} </td>
       </tr>
       <tr>
         <td colspan="3"><strong>다음글</strong> <span class="separator">|</span> [키즈잼] 2월 프로그램 안내</td>
@@ -54,8 +58,8 @@
 
     <a href="boardList.do"><div class="list">목록</div></a>
     <a href="#" onclick="boardDelete()"><div class="list">삭제</div></a>
-    <a href="boardModify.do"><div class="list">수정</div></a>
-    <a href="boardReply.do"><div class="list">답변달기</div></a>
+    <a href="boardModify.do?bid=${bDto.bid}"><div class="list">수정</div></a>
+    <a href="boardReply.do?bid=${bDto.bid}"><div class="list">답변달기</div></a>
   </section>
 </body>
 </html>

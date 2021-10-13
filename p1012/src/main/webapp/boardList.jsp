@@ -52,6 +52,9 @@
 	      <tr>
 	        <td><span class="table-notice">${boardDto.bid}</span></td>
 	        <td class="table-title">
+	        <c:forEach begin="1" end="${boardDto.bindent}" step="1">
+	            <img src="images/reply.png" width="20px">
+	        </c:forEach>
 	        <a href="boardView.do?bid=${boardDto.bid}">${boardDto.btitle }</a>
 	        </td>
 	        <td>${boardDto.bname}</td>

@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,12 +15,9 @@
     <h1>게시글수정</h1>
     <hr>
 
-    <form action="reply.do" name="reply" method="post">
+    <form action="doBoardModify.do" name="modify" method="post">
       <table>
-      <input type="hidden" name="bId" value="test">
-      <input type="hidden" name="bGroup" value="test">
-      <input type="hidden" name="bStep" value="test">
-      <input type="hidden" name="bIndent" value="test">
+      <input type="hidden" name="bid" value="${bDto.bid}">
         <colgroup>
           <col width="15%">
           <col width="85%">
@@ -26,37 +25,36 @@
         <tr>
           <th>작성자</th>
           <td>
-            <input type="text" name="bName">
+            <input type="text" name="bname" value="${bDto.bname}" readonly>
           </td>
         </tr>
         <tr>
           <th>제목</th>
           <td>
-            <input type="text" name="bTitle" value="<답변> test">
+            <input type="text" name="btitle" value="${bDto.btitle}">
           </td>
         </tr>
         <tr>
           <th>내용</th>
           <td>
-<textarea name="bContent" cols="50" rows="10">
-
----------------------------
-[답글]
-test
-</textarea>
+            <textarea name="bcontent" cols="50" rows="10">${bDto.bcontent}</textarea>
           </td>
         </tr>
         <tr>
           <th>이미지 표시</th>
           <td>
-            <input type="file" name="file" id="file">
+            <input type="file" name="bupload" id="bupload">
           </td>
+        </tr>
+        <tr>
+          <th>파일이름</th>
+          <td>${bDto.bupload}</td>
         </tr>
       </table>
       <hr>
       <div class="button-wrapper">
-        <button type="submit" class="write">답변완료</button>
-        <button type="button" class="cancel" onclick="javascript:location.href='list.do'">취소</button>
+        <button type="submit" class="write">수정완료</button>
+        <button type="button" class="cancel" onclick="javascript:location.href='boardView.do?bid=${bDto.bid}'">취소</button>
       </div>
     </form>
 
