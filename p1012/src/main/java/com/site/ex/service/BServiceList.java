@@ -13,9 +13,42 @@ public class BServiceList implements BService {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		BoardDao bDao = new BoardDao();
-		//BoardDao의 selectBoardList호출 -> list가져옴.
-		ArrayList<BoardDto> list = bDao.selectBoardList();
+		int listCount=0;
+		int page=1; 
+		int limit=10;     //1페이지에 최대 게시글수 10개
+		int numLimit=10;  //하단넘버링 개수 1,2,3***9,10   
+		int maxpage = 0;  //하단넘버링 최대페이지 수
+		int startpage=0;  //하단넘버링 시작페이지
+		int endpage=0;    //하단넘버링 끝페이지
+		int startrow=0;   //데이터 시작번호
+		int endrow=0;     //데이터 끝번호
+		//page 변수가 있을때
+		if(request.getParameter("page")!=null){
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		//게시글 전체 개수
+		listCount = bDao.selectBoardCount();
+		System.out.println("listCount : "+listCount);
+		//최대페이지,시작페이지,끝페이지
+		maxpage = (int)((double)listCount/limit+0.99);
+		startpage = (((int)((double)page/numLimit+0.99))-1)*numLimit+1;
+		endpage = startpage+numLimit-1;
+		//끝페이지가 최대페이지보다 큰경우
+		if(endpage>maxpage) endpage=maxpage;
+		//데이터 시작번호, 끝번호 구하기
+		startrow = (page-1)*limit+1;
+		endrow = startrow+limit-1;
+		System.out.println("startrow : "+startrow);
+		System.out.println("endrow : "+endrow);
+		//BoardDao의 selectBoardList호출 ->시작번호,끝번호를 매개변수로 넣어서 list가져옴.
+		ArrayList<BoardDto> list = bDao.selectBoardList(startrow,endrow);
 		request.setAttribute("list", list);
+		//하단넘버링에 필요한 변수
+		request.setAttribute("listCount", listCount);
+		request.setAttribute("page", page);
+		request.setAttribute("maxpage", maxpage);
+		request.setAttribute("startpage", startpage);
+		request.setAttribute("endpage", endpage);
 
 	}
 

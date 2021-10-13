@@ -39,7 +39,7 @@
         </tr>
         <tr>
           <th>내용</th>
-          <td><textarea name="bContent" cols="50" rows="10">
+          <td><textarea name="bcontent" cols="50" rows="10">
 
 ---------------------------
 [답변글]

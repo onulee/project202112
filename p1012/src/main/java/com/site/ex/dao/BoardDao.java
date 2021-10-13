@@ -214,16 +214,46 @@ public class BoardDao {
 		return bDto;
 	}//selectBoardView
 	
+	//게시글 전체 개수 메소드-select
+	public int selectBoardCount() {
+		int listCount=0;
+		try {
+			//connection객체 가져오기
+			conn = getConnection();
+			sql = "select count(*) from board";
+			pstmt = conn.prepareStatement(sql);
+			// board의 모든 정보를 가져옴.
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				listCount = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return listCount;
+	}//selectBoardCount
 	
 	//전체 게시글 가져오기
-	public ArrayList<BoardDto> selectBoardList(){
+	public ArrayList<BoardDto> selectBoardList(int startrow, int endrow){
 		list = new ArrayList<BoardDto>();
 		
 		try {
 			//connection객체 가져오기
 			conn = getConnection();
-			sql = "select * from board order by bgroup desc, bstep asc";
+			sql = "select * from"
+					+ "(select rownum as rnum,b.* from (select * from board order by bgroup desc,bstep asc) b)"
+					+ "where rnum>=? and rnum<=?";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, startrow);
+			pstmt.setInt(2, endrow);
 			// board의 모든 정보를 가져옴.
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -268,6 +298,8 @@ public class BoardDao {
 		}
 		return conn;
 	}// getConnection
+
+	
 
 	
 
