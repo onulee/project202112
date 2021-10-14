@@ -215,13 +215,34 @@ public class BoardDao {
 	}//selectBoardView
 	
 	//게시글 전체 개수 메소드-select
-	public int selectBoardCount() {
+	public int selectBoardCount(String category, String searchWord) {
 		int listCount=0;
 		try {
 			//connection객체 가져오기
 			conn = getConnection();
-			sql = "select count(*) from board";
-			pstmt = conn.prepareStatement(sql);
+			
+			switch (category) {
+			case "":
+				sql = "select count(*) from board";
+				pstmt = conn.prepareStatement(sql);
+				break;
+			case "all":
+				sql = "select count(*) from board where btitle like ? or bcontent like ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%"+searchWord+"%");
+				pstmt.setString(2, "%"+searchWord+"%");
+				break;
+			case "title":
+				sql = "select count(*) from board where btitle like ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%"+searchWord+"%");
+				break;
+			case "content":
+				sql = "select count(*) from board where bcontent like ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%"+searchWord+"%");
+				break;
+			}
 			// board의 모든 정보를 가져옴.
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
@@ -242,18 +263,53 @@ public class BoardDao {
 	}//selectBoardCount
 	
 	//전체 게시글 가져오기
-	public ArrayList<BoardDto> selectBoardList(int startrow, int endrow){
+	public ArrayList<BoardDto> selectBoardList(int startrow, int endrow, String category, String searchWord){
 		list = new ArrayList<BoardDto>();
 		
 		try {
 			//connection객체 가져오기
 			conn = getConnection();
-			sql = "select * from"
-					+ "(select rownum as rnum,b.* from (select * from board order by bgroup desc,bstep asc) b)"
-					+ "where rnum>=? and rnum<=?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, startrow);
-			pstmt.setInt(2, endrow);
+			System.out.println("Dao category : "+category);
+			//category가 "",all,title,content
+			switch (category) {
+			case "": //게시판메뉴,하단넘버링으로 넘어왔을때
+				sql = "select * from"
+						+ "(select rownum as rnum,b.* from (select * from board order by bgroup desc,bstep asc) b)"
+						+ "where rnum>=? and rnum<=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, startrow);
+				pstmt.setInt(2, endrow);
+				break;
+			case "all":
+				sql = "select * from"
+						+ "(select rownum as rnum,b.* from (select * from board where btitle like ? or bcontent like ? order by bgroup desc,bstep asc) b)"
+						+ "where rnum>=? and rnum<=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%"+searchWord+"%");  //'%사진%'
+				pstmt.setString(2, "%"+searchWord+"%");  //'%사진%'
+				pstmt.setInt(3, startrow);
+				pstmt.setInt(4, endrow);
+			    break;
+			case "title":
+				sql = "select * from"
+						+ "(select rownum as rnum,b.* from (select * from board where btitle like ? order by bgroup desc,bstep asc) b)"
+						+ "where rnum>=? and rnum<=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%"+searchWord+"%");  //'%사진%'
+				pstmt.setInt(2, startrow);
+				pstmt.setInt(3, endrow);
+				break;
+			case "content":
+				sql = "select * from"
+						+ "(select rownum as rnum,b.* from (select * from board where bcontent like ? order by bgroup desc,bstep asc) b)"
+						+ "where rnum>=? and rnum<=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%"+searchWord+"%");  //'%사진%'
+				pstmt.setInt(2, startrow);
+				pstmt.setInt(3, endrow);
+				break;
+			}
+			
 			// board의 모든 정보를 가져옴.
 			rs = pstmt.executeQuery();
 			while(rs.next()) {

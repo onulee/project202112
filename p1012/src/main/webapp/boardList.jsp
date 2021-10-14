@@ -3,6 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html>
 <html>
+<c:if test="${session_id==null}">
+  <script type="text/javascript">
+    alert("로그인을 하셔야 게시판메뉴에 접속가능합니다!");
+    location.href="login.do";
+  </script>
+</c:if>
 <head>
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,19 +20,17 @@
 </head>
 <body>
 <section>
-    <h1>NOTICE</h1>
+    <a href="index.do"><h1>NOTICE</h1></a>
     <div class="wrapper">
-      <form action="/search" name="search" method="post">
+      <form action="search.do" name="search" method="post">
         <select name="category" id="category">
-          <option value="0">전체</option>
-          <option value="title">제목</option>
-          <option value="content">내용</option>
+          <option value="all" ${category=='all'?'selected':''}>전체</option>
+          <option value="title" ${category=='title'?'selected':''}>제목</option>
+          <option value="content" ${category=='content'?'selected':''}>내용</option>
         </select>
-
         <div class="title">
-          <input type="text" size="16">
+          <input type="text" size="16" name="searchWord" value="${searchWord}">
         </div>
-  
         <button type="submit"><i class="fas fa-search"></i></button>
       </form>
     </div>
@@ -55,7 +59,7 @@
 	        <c:forEach begin="1" end="${boardDto.bindent}" step="1">
 	            <img src="images/reply.png" width="20px">
 	        </c:forEach>
-	        <a href="boardView.do?bid=${boardDto.bid}&page=${page}">${boardDto.btitle }</a>
+	        <a href="boardView.do?bid=${boardDto.bid}&page=${page}&category=${category}&searchWord=${searchWord}">${boardDto.btitle }</a>
 	        </td>
 	        <td>${boardDto.bname}</td>
 	        <td>${boardDto.bdate}</td>
@@ -67,28 +71,28 @@
     </table>
     <!-- 하단넘버링 -->
     <ul class="page-num">
-      <a href="boardList.do?page=1"><li class="first"></li></a>
+      <a href="boardList.do?page=1&category=${category}&searchWord=${searchWord}"><li class="first"></li></a>
       <c:if test="${page<=1}">
          <li class="prev"></li>
       </c:if>
       <c:if test="${page>1}">
-        <a href="boardList.do?page=${page-1}"><li class="prev"></li></a>
+        <a href="boardList.do?page=${page-1}&category=${category}&searchWord=${searchWord}"><li class="prev"></li></a>
       </c:if>
       <c:forEach var="pageNum" begin="${startpage}" end="${endpage}">
         <c:if test="${page==pageNum }">
            <li class="num"><div>${pageNum}</div></li>
         </c:if>
         <c:if test="${page != pageNum }">
-           <a href="boardList.do?page=${pageNum}"><li class="num"><div>${pageNum}</div></li></a>
+           <a href="boardList.do?page=${pageNum}&category=${category}&searchWord=${searchWord}"><li class="num"><div>${pageNum}</div></li></a>
         </c:if>
       </c:forEach>
       <c:if test="${page>=maxpage }">
         <li class="next"></li>
       </c:if>
       <c:if test="${page<maxpage}">
-        <a href="boardList.do?page=${page+1}"><li class="next"></li></a>
+        <a href="boardList.do?page=${page+1}&category=${category}&searchWord=${searchWord}"><li class="next"></li></a>
       </c:if>
-      <a href="boardList.do?page=${maxpage}"><li class="last"></li></a>
+      <a href="boardList.do?page=${maxpage}&category=${category}&searchWord=${searchWord}"><li class="last"></li></a>
     </ul>
     <!-- 하단넘버링 끝 -->
     <a href="boardWrite.do"><div class="write">쓰기</div></a>

@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.site.ex.service.BService;
 import com.site.ex.service.BServiceDelete;
@@ -18,6 +19,9 @@ import com.site.ex.service.BServiceModify;
 import com.site.ex.service.BServiceReply;
 import com.site.ex.service.BServiceView;
 import com.site.ex.service.BServiceWrite;
+import com.site.ex.service.MService;
+import com.site.ex.service.MServiceLogin;
+import com.site.ex.service.MServiceWrite;
 
 
 @WebServlet("*.do")
@@ -35,6 +39,7 @@ public class BController extends HttpServlet {
 		String page="";
 		int flag=0;
 		BService bService=null;
+		MService mService=null;
 		if(fileName.equals("/index.do")) {
 			page="index.jsp";
 		}else if(fileName.equals("/boardList.do")) {
@@ -64,14 +69,12 @@ public class BController extends HttpServlet {
 			bService.execute(request, response);
 			page="boardList.do";
 		}else if(fileName.equals("/boardModify.do")) {
-			//bService객체선언
 			bService = new BServiceModify();
 			//request 파리미터 데이터 값이 db저장됨.
 			bService.execute(request, response);
 			page="boardModify.jsp";
 		}else if(fileName.equals("/doBoardModify.do")) {
 			int bid = Integer.parseInt(request.getParameter("bid"));
-			//bService객체선언
 			bService = new BServiceDoModify();
 			//request 파라미터 데이터 값이 db저장됨
 			bService.execute(request, response);
@@ -90,7 +93,32 @@ public class BController extends HttpServlet {
 			flag=1;
 			response.sendRedirect("boardList.do");
 			//page="boardList.do";
+		}else if(fileName.equals("/search.do")) {
+			bService = new BServiceList();
+			bService.execute(request, response);
+			page="boardList.do";
+		}else if(fileName.equals("/login.do")){
+			page="login.html";
+		}else if(fileName.equals("/doLogin.do")){
+			mService = new MServiceLogin();
+			mService.execute(request, response);
+			page="doLogin.jsp";
+		}else if(fileName.equals("/logout.do")){
+			HttpSession session = request.getSession();
+			session.invalidate();
+			page="doLogout.jsp";
+		}else if(fileName.equals("/membership.do")){
+			page="membership.jsp";
+		}else if(fileName.equals("/doMembership.do")){
+			mService = new MServiceWrite();
+			mService.execute(request, response);
+			page="doMembership.jsp";
+		}else if(fileName.equals("/memberList.do")){
+			
+			
+			page="memberList.jsp";
 		}
+			
 		
 		//----------
 		// 페이지 forward기능이 있음. sendRedirect-request,response신규리턴,dispatcher-기존request,response를 그대로 리턴
