@@ -45,7 +45,7 @@ public class BServiceList implements BService {
 		request.setAttribute("list", list);
 		//하단넘버링에 필요한 변수
 		request.setAttribute("listCount", listCount);
-		request.setAttribute("page", page);
+		request.setAttribute("page", page);  //요청한 현재페이지번호
 		request.setAttribute("maxpage", maxpage);
 		request.setAttribute("startpage", startpage);
 		request.setAttribute("endpage", endpage);

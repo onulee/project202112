@@ -55,7 +55,7 @@
 	        <c:forEach begin="1" end="${boardDto.bindent}" step="1">
 	            <img src="images/reply.png" width="20px">
 	        </c:forEach>
-	        <a href="boardView.do?bid=${boardDto.bid}">${boardDto.btitle }</a>
+	        <a href="boardView.do?bid=${boardDto.bid}&page=${page}">${boardDto.btitle }</a>
 	        </td>
 	        <td>${boardDto.bname}</td>
 	        <td>${boardDto.bdate}</td>
@@ -65,15 +65,32 @@
       
       <!-- 내용 끝 -->
     </table>
-
+    <!-- 하단넘버링 -->
     <ul class="page-num">
-      <li class="first"></li>
-      <li class="prev"></li>
-      <li class="num"><div>1</div></li>
-      <li class="next"></li>
-      <li class="last"></li>
+      <a href="boardList.do?page=1"><li class="first"></li></a>
+      <c:if test="${page<=1}">
+         <li class="prev"></li>
+      </c:if>
+      <c:if test="${page>1}">
+        <a href="boardList.do?page=${page-1}"><li class="prev"></li></a>
+      </c:if>
+      <c:forEach var="pageNum" begin="${startpage}" end="${endpage}">
+        <c:if test="${page==pageNum }">
+           <li class="num"><div>${pageNum}</div></li>
+        </c:if>
+        <c:if test="${page != pageNum }">
+           <a href="boardList.do?page=${pageNum}"><li class="num"><div>${pageNum}</div></li></a>
+        </c:if>
+      </c:forEach>
+      <c:if test="${page>=maxpage }">
+        <li class="next"></li>
+      </c:if>
+      <c:if test="${page<maxpage}">
+        <a href="boardList.do?page=${page+1}"><li class="next"></li></a>
+      </c:if>
+      <a href="boardList.do?page=${maxpage}"><li class="last"></li></a>
     </ul>
-
+    <!-- 하단넘버링 끝 -->
     <a href="boardWrite.do"><div class="write">쓰기</div></a>
   </section>
 

@@ -56,10 +56,10 @@
       </tr>
     </table>
 
-    <a href="boardList.do"><div class="list">목록</div></a>
+    <a href="boardList.do?page=${param.page}"><div class="list">목록</div></a>
     <a href="#" onclick="boardDelete()"><div class="list">삭제</div></a>
     <a href="boardModify.do?bid=${bDto.bid}"><div class="list">수정</div></a>
-    <a href="boardReply.do?bid=${bDto.bid}"><div class="list">답변달기</div></a>
+    <a href="boardReply.do?bid=${bDto.bid}&page=${param.page}"><div class="list">답변달기</div></a>
   </section>
 </body>
 </html>
