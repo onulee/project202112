@@ -20,6 +20,7 @@ import com.site.ex.service.BServiceReply;
 import com.site.ex.service.BServiceView;
 import com.site.ex.service.BServiceWrite;
 import com.site.ex.service.MService;
+import com.site.ex.service.MServiceList;
 import com.site.ex.service.MServiceLogin;
 import com.site.ex.service.MServiceWrite;
 
@@ -112,10 +113,10 @@ public class BController extends HttpServlet {
 		}else if(fileName.equals("/doMembership.do")){
 			mService = new MServiceWrite();
 			mService.execute(request, response);
-			page="doMembership.jsp";
+			page="step04.html";
 		}else if(fileName.equals("/memberList.do")){
-			
-			
+			mService = new MServiceList();
+			mService.execute(request, response);
 			page="memberList.jsp";
 		}
 			

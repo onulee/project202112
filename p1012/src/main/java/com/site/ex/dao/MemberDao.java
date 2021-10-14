@@ -25,6 +25,61 @@ public class MemberDao {
 	private MemberDto mDto=null;
 	private String id,pw,name,email,hobby;
 	
+	//전체 회원리스트 가져오기 메소드-select
+	public ArrayList<MemberDto> selectMemberList() {
+		list = new ArrayList<MemberDto>();
+		try {
+			conn = getConnection();
+			sql="select * from member";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				id = rs.getString("id");
+				pw = rs.getString("pw");
+				name = rs.getString("name");
+				email = rs.getString("email");
+				hobby = rs.getString("hobby");
+				list.add(new MemberDto(id,pw,name,email,hobby));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return list;
+	}//selectMemberList
+	
+	
+	//member 저장 메소드-insert
+	public void insertMember(MemberDto ch_mDto) {
+		try {
+			conn = getConnection();
+			sql="insert into member values(?,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ch_mDto.getId());
+			pstmt.setString(2, ch_mDto.getPw());
+			pstmt.setString(3, ch_mDto.getName());
+			pstmt.setString(4, ch_mDto.getEmail());
+			pstmt.setString(5, ch_mDto.getHobby());
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}//insertMember
 	
 	//login 메소드
 	public MemberDto selectLogin(String ch_id, String ch_pw) {
@@ -70,6 +125,11 @@ public class MemberDao {
 		}
 		return conn;
 	}// getConnection
+
+	
+
+
+	
 
 
 

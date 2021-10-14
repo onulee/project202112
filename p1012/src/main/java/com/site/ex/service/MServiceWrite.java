@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.site.ex.dao.MemberDao;
+import com.site.ex.dto.MemberDto;
 
 public class MServiceWrite implements MService {
 
@@ -24,7 +25,9 @@ public class MServiceWrite implements MService {
 				hobby +=","+hobbys[i];
 			}
 		}
-		//mDao.insertMember();
+		MemberDto mDto = new MemberDto(id, pw, name, email, hobby);
+		//db에 저장
+		mDao.insertMember(mDto);
 
 	}
 
