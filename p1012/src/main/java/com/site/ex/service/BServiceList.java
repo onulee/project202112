@@ -40,8 +40,10 @@ public class BServiceList implements BService {
 		listCount = bDao.selectBoardCount(category,searchWord);
 		System.out.println("listCount : "+listCount);
 		//최대페이지,시작페이지,끝페이지
-		maxpage = (int)((double)listCount/limit+0.99);
-		startpage = (((int)((double)page/numLimit+0.99))-1)*numLimit+1;
+		//maxpage = (int)((double)listCount/limit+0.99);
+		//startpage = (((int)((double)page/numLimit+0.99))-1)*numLimit+1;
+		maxpage = (int) Math.ceil((double)listCount/limit);
+		startpage = (((int)(Math.ceil((double)page/numLimit)-1)))*numLimit+1;
 		endpage = startpage+numLimit-1;
 		//끝페이지가 최대페이지보다 큰경우
 		if(endpage>maxpage) endpage=maxpage;

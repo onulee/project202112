@@ -178,6 +178,85 @@ public class BoardDao {
 		}
 	}//updateBhit
 	
+	//1개 게시글 이전글 가져오기
+	public BoardDto selectBoardViewPre(int ch_bid) {
+		try {
+			conn = getConnection();
+			sql="select * from (select rownum rnum,b.* from\r\n"
+					+ "(select * from board order by bgroup desc,bstep asc) b)\r\n"
+					+ "where rnum=\r\n"
+					+ "(select rnum from (select rownum rnum,b.* from\r\n"
+					+ "(select * from board order by bgroup desc,bstep asc) b)\r\n"
+					+ "where bid=?)+1";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ch_bid);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				bid = rs.getInt("bid");
+				bname = rs.getString("bname");
+				btitle = rs.getString("btitle");
+				bcontent = rs.getString("bcontent");
+				bdate = rs.getTimestamp("bdate");
+				bhit = rs.getInt("bhit");
+				bgroup = rs.getInt("bgroup");
+				bstep = rs.getInt("bstep");
+				bindent = rs.getInt("bindent");
+				bupload = rs.getString("bupload");
+				bDto = new BoardDto(bid,bname,btitle,bcontent,bdate,bhit,bgroup,bstep,bindent,bupload);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return bDto;
+	}//selectBoardViewPre
+	
+	//1개 게시글 다음글 가져오기
+	public BoardDto selectBoardViewNext(int ch_bid) {
+		try {
+			conn = getConnection();
+			sql="select * from (select rownum rnum,b.* from\r\n"
+					+ "(select * from board order by bgroup desc,bstep asc) b)\r\n"
+					+ "where rnum=\r\n"
+					+ "(select rnum from (select rownum rnum,b.* from\r\n"
+					+ "(select * from board order by bgroup desc,bstep asc) b)\r\n"
+					+ "where bid=?)-1";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ch_bid);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				bid = rs.getInt("bid");
+				bname = rs.getString("bname");
+				btitle = rs.getString("btitle");
+				bcontent = rs.getString("bcontent");
+				bdate = rs.getTimestamp("bdate");
+				bhit = rs.getInt("bhit");
+				bgroup = rs.getInt("bgroup");
+				bstep = rs.getInt("bstep");
+				bindent = rs.getInt("bindent");
+				bupload = rs.getString("bupload");
+				bDto = new BoardDto(bid,bname,btitle,bcontent,bdate,bhit,bgroup,bstep,bindent,bupload);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return bDto;
+	}//selectBoardViewNext
 	
 	// 1개 게시글 가져오기
 	public BoardDto selectBoardView(int ch_bid) {
@@ -354,6 +433,8 @@ public class BoardDao {
 		}
 		return conn;
 	}// getConnection
+
+	
 
 	
 

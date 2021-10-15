@@ -18,7 +18,13 @@ public class BServiceView implements BService {
 		bDao.updateBhit(bid);
 		//dao에 있는 selectBoardView호출 -> BoardDto
 		BoardDto bDto = bDao.selectBoardView(bid);
+		//다음글 가져오기
+		BoardDto nextDto = bDao.selectBoardViewNext(bid);
+		//이전글 가져오기
+		BoardDto preDto = bDao.selectBoardViewPre(bid);
 		request.setAttribute("bDto", bDto);
+		request.setAttribute("nextDto", nextDto);
+		request.setAttribute("preDto", preDto);
 	}
 
 }
