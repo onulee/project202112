@@ -15,7 +15,7 @@ public class BServiceReply implements BService {
 		//request파리미터로 넘어온 데이터 변수저장
 		int bid = Integer.parseInt(request.getParameter("bid"));
 		//게시글수정 위한 1개 데이터 가져오는 메소드호출 - BoardDto
-		BoardDto bDto = bDao.selectBoardView(bid);
+		BoardDto bDto = bDao.selectBoardView(bid,1);
 		request.setAttribute("bDto", bDto);
 	}
 
