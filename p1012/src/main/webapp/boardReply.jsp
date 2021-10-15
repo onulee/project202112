@@ -57,7 +57,7 @@ ${bDto.bcontent}
       <hr>
       <div class="button-wrapper">
         <button type="submit" class="write">답변완료</button>
-        <button type="button" class="cancel" onclick="javascript:location.href='boardView.do?bid='+${bDto.bid}">취소</button>
+        <button type="button" class="cancel" onclick="javascript:location.href='boardView.do?bid='+${bDto.bid}&page="+${param.page}>취소</button>
       </div>
     </form>
 
