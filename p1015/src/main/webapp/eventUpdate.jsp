@@ -3,15 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Pages - Login</title>
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700,900&display=swap&subset=korean" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/read.css">
+  <link rel="stylesheet" href="css/write.css">
 </head>
 
 <body>
@@ -50,31 +49,83 @@
   </nav>
 
   <section>
-    <h1>EVENT</h1>
-    
-    <table>
-      <tr>
-        <th>${eDto.etitle}</th>
-      </tr>
-      <tr>
-        <td><fmt:formatDate value="${eDto.startdate}" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${eDto.enddate}" pattern="yyyy-MM-dd"/></td>
-      </tr>
-      <tr>
-        <td class="article">
-          <img src="upload/${eDto.efilename2}" alt="" width="80%">
-          </td>
-      </tr>
-      <tr>
-        <td><strong>다음글</strong> <span class="separator">|</span><a href="eventView.do?eid=${nextDto.eid}">${nextDto.etitle}</a></td>
-      </tr>
-      <tr>
-        <td><strong>이전글</strong> <span class="separator">|</span><a href="eventView.do?eid=${preDto.eid}">${preDto.etitle}</a></td>
-      </tr>
-    </table>
+    <h1>이벤트 등록</h1>
+    <hr>
 
-    <a href="eventList.do"><div class="list">목록</div></a>
-    <div class="list">삭제</div>
-    <a href="eventUpdate.do?eid=${eDto.eid}"><div class="list">수정</div></a>
+    <form action="doEventUpdate.do" name="write" method="post" enctype="multipart/form-data">
+      <table>
+      <input type="hidden" name="eid" value="${eDto.eid}">
+      <input type="hidden" name="id" value="${eDto.id}">
+      <input type="hidden" name="efileName" value="${eDto.efilename}">
+      <input type="hidden" name="efileName2" value="${eDto.efilename2}">
+        <colgroup>
+          <col width="15%">
+          <col width="85%">
+        </colgroup>
+        <tr>
+          <th>진행상태</th>
+          <td>
+            <div class="category-wrapper">
+              <select name="estate" id="estate">
+                <option value="진행예정" ${(eDto.estate=='진행예정')?'selected':''}>진행예정</option>
+                <option value="진행중" ${(eDto.estate=='진행중')?'selected':''}>진행중</option>
+                <option value="진행종료" ${(eDto.estate=='진행종료')?'selected':''}>진행종료</option>
+              </select>  
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>시작일</th>
+          <td>
+            <input type="date" name="startdate" value='<fmt:formatDate value="${eDto.startdate}" pattern="yyyy-MM-dd"/>'>
+          </td>
+        </tr>
+        <tr>
+          <th>종료일</th>
+          <td>
+            <input type="date" name="enddate" value='<fmt:formatDate value="${ eDto.enddate }" pattern="yyyy-MM-dd"/>'>
+          </td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td>
+            <input type="text" name="etitle" value="${eDto.etitle }">
+          </td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td>
+            <textarea name="econtent" cols="50" rows="10">${eDto.econtent}</textarea>
+          </td>
+        </tr>
+        <tr>
+          <th>썸네일이미지</th>
+          <td>
+            <input type="file" name="fileName" id="fileName">
+          </td>
+        </tr>
+        <tr>
+          <th>썸네일이미지 파일이름</th>
+          <td>${eDto.efilename}</td>
+        </tr>
+        <tr>
+          <th>상세이미지</th>
+          <td>
+            <input type="file" name="fileName2" id="fileName2">
+          </td>
+        <tr>
+          <th>상세이미지 파일이름</th>
+          <td>${eDto.efilename2}</td>
+        </tr>
+        </tr>
+      </table>
+      <hr>
+      <div class="button-wrapper">
+        <button type="submit" class="write">작성완료</button>
+        <button type="button" class="cancel" onclick="javascript:location.href='eventList.do'">취소</button>
+      </div>
+    </form>
+
   </section>
 
   <footer>

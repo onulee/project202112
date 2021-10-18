@@ -112,6 +112,42 @@ public class EventDao {
 		return list;
 	}//selectEventList
 	
+	//이벤트 업데이트 메소드 - update
+	public int updateEvent(EventDto ch_eDto) {
+		try {
+			//connection객체 가져오기
+			conn = getConnection();
+			// board의 모든 정보를 가져옴.
+			sql="update event set etitle=?,econtent=?,edate=sysdate,\r\n"
+					+ "startdate=?,enddate=?,estate=?,\r\n"
+					+ "efilename=?,efilename2=? where eid=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ch_eDto.getEtitle());
+			System.out.println("dao etitle : "+ch_eDto.getEtitle());
+			pstmt.setString(2, ch_eDto.getEcontent());
+			pstmt.setTimestamp(3, ch_eDto.getStartdate());
+			pstmt.setTimestamp(4, ch_eDto.getEnddate());
+			pstmt.setString(5, ch_eDto.getEstate());
+			pstmt.setString(6, ch_eDto.getEfilename());
+			pstmt.setString(7, ch_eDto.getEfilename2());
+			pstmt.setInt(8, ch_eDto.getEid());
+			// 성공 1, 실패 0으로 리턴됨.
+			result = pstmt.executeUpdate();
+			System.out.println("result : "+result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
 	
 	//이벤트 쓰기 메소드
 	public int insertEventWrite(EventDto ch_eDto) {
@@ -188,6 +224,9 @@ public class EventDao {
 		}
 		return conn;
 	}// getConnection
+
+
+	
 
 
 	

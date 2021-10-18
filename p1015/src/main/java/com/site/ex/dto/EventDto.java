@@ -18,6 +18,19 @@ public class EventDto {
 		this.efilename2 = efilename2;
 	}
 
+	public EventDto(int eid, String id, String etitle, String econtent, Timestamp startdate, Timestamp enddate,
+			String estate, String efilename, String efilename2) {
+		this.eid = eid;
+		this.id = id;
+		this.etitle = etitle;
+		this.econtent = econtent;
+		this.startdate = startdate;
+		this.enddate = enddate;
+		this.estate = estate;
+		this.efilename = efilename;
+		this.efilename2 = efilename2;
+	}
+
 	public EventDto(int eid, String id, String etitle, String econtent, Timestamp edate, Timestamp startdate,
 			Timestamp enddate, String estate, String efilename, String efilename2) {
 		this.eid = eid;

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.site.ex.service.EventService;
 import com.site.ex.service.EventServiceList;
+import com.site.ex.service.EventServiceUpdate;
 import com.site.ex.service.EventServiceView;
 import com.site.ex.service.EventServiceWrite;
 
@@ -45,6 +46,14 @@ public class FrontController extends HttpServlet {
 			eventService = new EventServiceView();
 			eventService.execute(request, response);
 			page="eventView.jsp";
+		}else if(fileName.equals("/eventUpdate.do")) {
+			eventService = new EventServiceView();
+			eventService.execute(request, response);
+			page="eventUpdate.jsp";
+		}else if(fileName.equals("/doEventUpdate.do")) {
+			eventService = new EventServiceUpdate();
+			eventService.execute(request, response);
+			page="eventUpdate.jsp";
 		}
 		
 		// 페이지 forward기능이 있음. sendRedirect-request,response신규리턴,dispatcher-기존request,response를 그대로 리턴
