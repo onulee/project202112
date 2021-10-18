@@ -22,9 +22,97 @@ public class EventDao {
 	private ArrayList<EventDto> list=null;
 	private EventDto eDto=null;
 	private int eid;
-	private String id,etitle,econtent,estate,efilename;
+	private String id,etitle,econtent,estate,efilename,efilename2;
 	private Timestamp edate,startdate,enddate;
 
+	//이벤트 1개 eDto 가져오기 메소드 - 1.해당글 2.다음글 3.이전글
+	public EventDto selectEventView(int ch_eid, int checkView) {
+		try {
+			conn = getConnection();
+			switch (checkView) {
+			case 1: //1.해당이벤트게시글 2.다음글 3.이전글 
+				// event의 모든 정보를 가져옴.
+				sql="select * from event where eid=?";
+				break;
+			case 2:
+				// 다음글
+				sql="select * from event where eid = (\r\n"
+						+ "(select min(eid) FROM event where estate not in('진행예정') and eid > ?))";
+				break;
+			case 3:
+				// 이전글
+				sql="select * from event where eid=(\r\n"
+						+ "(select max(eid) from event  where estate not in('진행예정') and eid<?))";
+				break;
+			}
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ch_eid);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				eid = rs.getInt("eid");
+				id = rs.getString("id");
+				etitle = rs.getString("etitle");
+				econtent = rs.getString("econtent");
+				edate = rs.getTimestamp("edate");
+				startdate = rs.getTimestamp("startdate");
+				enddate = rs.getTimestamp("enddate");
+				estate = rs.getString("estate");
+				efilename = rs.getString("efilename");
+				efilename2 = rs.getString("efilename2");
+				eDto = new EventDto(eid, id, etitle, econtent, edate, startdate, enddate, estate, efilename, efilename2);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return eDto;
+	}//selectEventView
+	
+	
+	//이벤트 리스트 가져오기 메소드 - select
+	public ArrayList<EventDto> selectEventList() {
+		list = new ArrayList<EventDto>();
+		try {
+			conn = getConnection();
+			// board의 모든 정보를 가져옴.
+			sql="select * from event";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				eid = rs.getInt("eid");
+				id = rs.getString("id");
+				etitle = rs.getString("etitle");
+				econtent = rs.getString("econtent");
+				edate = rs.getTimestamp("edate");
+				startdate = rs.getTimestamp("startdate");
+				enddate = rs.getTimestamp("enddate");
+				estate = rs.getString("estate");
+				efilename = rs.getString("efilename");
+				efilename2 = rs.getString("efilename2");
+				list.add(new EventDto(eid, id, etitle, econtent, edate, startdate, enddate, estate, efilename, efilename2));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return list;
+	}//selectEventList
+	
+	
 	//이벤트 쓰기 메소드
 	public int insertEventWrite(EventDto ch_eDto) {
 		try {
@@ -100,6 +188,11 @@ public class EventDao {
 		}
 		return conn;
 	}// getConnection
+
+
+	
+
+	
 
 
 	

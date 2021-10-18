@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.site.ex.service.EventService;
+import com.site.ex.service.EventServiceList;
+import com.site.ex.service.EventServiceView;
 import com.site.ex.service.EventServiceWrite;
 
 
@@ -30,7 +32,8 @@ public class FrontController extends HttpServlet {
 		if(fileName.equals("/main.do")) {
 			page="main.jsp";
 		}else if(fileName.equals("/eventList.do")) {
-			
+			eventService = new EventServiceList();
+			eventService.execute(request, response);
 			page="eventList.jsp";
 		}else if(fileName.equals("/eventWrite.do")) {
 			page="eventWrite.jsp";
@@ -38,6 +41,10 @@ public class FrontController extends HttpServlet {
 			eventService = new EventServiceWrite();
 			eventService.execute(request, response);
 			page="doEventWrite.jsp";
+		}else if(fileName.equals("/eventView.do")) {
+			eventService = new EventServiceView();
+			eventService.execute(request, response);
+			page="eventView.jsp";
 		}
 		
 		// 페이지 forward기능이 있음. sendRedirect-request,response신규리턴,dispatcher-기존request,response를 그대로 리턴

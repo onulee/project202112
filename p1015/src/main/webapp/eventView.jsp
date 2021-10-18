@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -47,29 +51,28 @@
 
   <section>
     <h1>EVENT</h1>
-
+    
     <table>
       <tr>
-        <th>FFLOW WELCOME EVENT</th>
+        <th>${eDto.etitle}</th>
       </tr>
       <tr>
-        <td>2020-02-17 ~ 2020-02-29</td>
+        <td><fmt:formatDate value="${eDto.startdate}" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${eDto.enddate}" pattern="yyyy-MM-dd"/></td>
       </tr>
       <tr>
         <td class="article">
-          <img src="https://www.akbeauty.co.kr/files/attach/temp/2020/202002/ba136933-7d5a-48dd-8339-b20350c9aac0.png" alt="" width="80%">
-          <img src="https://www.akbeauty.co.kr/files/attach/temp/2020/202002/2e43bfbb-49e3-45cf-bdd8-0145e611979f.png" alt="" width="80%">
+          <img src="upload/${eDto.efilename2}" alt="" width="80%">
           </td>
       </tr>
       <tr>
-        <td><strong>다음글</strong> <span class="separator">|</span> 착한 팩트 event</td>
+        <td><strong>다음글</strong> <span class="separator">|</span><a href="eventView.do?eid=${nextDto.eid}">${nextDto.etitle}</a></td>
       </tr>
       <tr>
-        <td><strong>이전글</strong> <span class="separator">|</span> 해피 발렌타인데이</td>
+        <td><strong>이전글</strong> <span class="separator">|</span><a href="eventView.do?eid=${preDto.eid}">${preDto.etitle}</a></td>
       </tr>
     </table>
 
-    <div class="list">목록</div>
+    <div class="list"><a href="eventList.do">목록</a></div>
     <div class="list">삭제</div>
     <div class="list">수정</div>
   </section>

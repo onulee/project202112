@@ -22,7 +22,8 @@ public class EventServiceWrite implements EventService {
 		EventDao eventDao = new EventDao();
 		//String uploadPath=request.getRealPath("upload"); <-jsp
 		//파일저장위치
-		String uploadPath=request.getSession().getServletContext().getRealPath("upload");
+		//String uploadPath=request.getSession().getServletContext().getRealPath("upload");
+		String uploadPath="c:/fileUpload";
 		//파일크기
 		int size=10*1024*1024;
 		try {

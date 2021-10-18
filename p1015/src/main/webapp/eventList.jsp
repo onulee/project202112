@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -52,12 +53,26 @@
 
     <article id="event_list">
       <ul>
-        <li>
-          <img src="https://www.akbeauty.co.kr/files/public/site/2020/202003/88752b53-6a41-4930-9145-266f90d27d8c.jpg" alt="" class="event-img">
-          <div class="event-now">진행중</div>
-          <div class="event-title">아이솔브 브랜드 기획전</div>
-          <div class="event-date">2020-03-10 ~ 2020-03-31</div>
-        </li>
+        <!-- 이벤트리스트 시작 -->
+        <c:forEach items="${list}" var="eDto">
+        <!-- 진행예정인 경우 출력 제외 -->
+        <c:if test="${eDto.estate!='진행예정'}">
+	        <li>
+	          <img src="upload/${eDto.efilename}" alt="" class="event-img">
+	          <c:if test="${eDto.estate=='진행중'}">
+	            <div class="event-now">${eDto.estate}</div>
+	          </c:if>
+	          <c:if test="${eDto.estate=='진행종료'}">
+	            <div class="event-end">${eDto.estate}</div>
+	          </c:if>
+	          <a href="eventView.do?eid=${eDto.eid}"><div class="event-title">${eDto.etitle}</div></a>
+	          <div class="event-date"><fmt:formatDate value="${eDto.startdate}" pattern="yyyy-MM-dd"/> ~ ${eDto.enddate}</div>
+	          <%-- <div class="event-date">${eDto.startdate} ~ ${eDto.enddate}</div> --%>
+	        </li>
+        </c:if>
+        </c:forEach>
+        <!-- 이벤트리스트 끝 -->
+        <!-- 
         <li>
           <img src="https://www.akbeauty.co.kr/files/public/site/2020/202003/54f0b3df-3c00-4ac9-b7ba-52cc5bf36d85.jpg" alt="" class="event-img">
           <div class="event-now">진행중</div>
@@ -78,7 +93,7 @@
         </li>
         <li>
           <img src="https://www.akbeauty.co.kr/files/public/site/2020/202002/aa855f2e-a2c4-4d12-82cb-4b07b06c6fb7.jpg" alt="" class="event-img">
-          <div class="event-end">종료</div>
+          <div class="event-end">진행종료</div>
           <div class="event-title">FFLOW WELCOME EVENT</div>
           <div class="event-date">2020-02-17 ~ 2020-02-29</div>
         </li>
@@ -112,6 +127,7 @@
           <div class="event-title">Year-End Lucky Draw!</div>
           <div class="event-date">2019-12-06 ~ 2019-12-15</div>
         </li>
+         -->
       </ul>
     </article>
 
