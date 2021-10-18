@@ -26,13 +26,14 @@ public class EventDao {
 	private Timestamp edate,startdate,enddate;
 
 	//이벤트 쓰기 메소드
-	public void insertEventWrite(EventDto ch_eDto) {
+	public int insertEventWrite(EventDto ch_eDto) {
 		try {
 			//connection객체 가져오기
 			conn = getConnection();
 			// board의 모든 정보를 가져옴.
 			sql="insert into event values(\r\n"
 					+ "event_seq.nextval,?,?,?,sysdate,?,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, ch_eDto.getId());
 			pstmt.setString(2, ch_eDto.getEtitle());
 			pstmt.setString(3, ch_eDto.getEcontent());
@@ -41,7 +42,8 @@ public class EventDao {
 			pstmt.setString(6, ch_eDto.getEstate());
 			pstmt.setString(7, ch_eDto.getEfilename());
 			pstmt.setString(8, ch_eDto.getEfilename2());
-			pstmt.executeUpdate();
+			// 성공 1, 실패 0으로 리턴됨.
+			result = pstmt.executeUpdate();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,6 +56,8 @@ public class EventDao {
 				e2.printStackTrace();
 			}
 		}
+		
+		return result;
 	}//insertEventWrite
 	
 	//전체 게시글 가져오기

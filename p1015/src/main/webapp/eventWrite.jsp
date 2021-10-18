@@ -51,7 +51,7 @@
     <h1>이벤트 등록</h1>
     <hr>
 
-    <form action="/doEventWrite.do" name="write" method="post" enctype="multipart/form-data">
+    <form action="doEventWrite.do" name="write" method="post" enctype="multipart/form-data">
       <table>
         <colgroup>
           <col width="15%">
@@ -96,7 +96,7 @@
         <tr>
           <th>썸네일이미지</th>
           <td>
-            <input type="file" name="fileName1" id="fileName1">
+            <input type="file" name="fileName" id="fileName">
           </td>
         </tr>
         <tr>
