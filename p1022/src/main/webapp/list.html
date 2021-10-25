@@ -31,19 +31,26 @@
     		chtml += '<td><span onclick="deleteBtn('+trid+')">삭제</span></td>';
     		chtml += '</tr>';
     		$("#tbodyContent").append(chtml);
+    		$("#bname").val("");
+    		$("#btitle").val("");
     		alert("댓글이 저장되었습니다.");
     		checkNo++;
     	});
     });//function
     
+    //수정버튼 클릭
     function updateBtn(u_id){
     	alert("tr의 id값 : "+u_id);
     	alert("tr전체 값 : "+$("#"+u_id).text());
     	alert("tr td두번째 값 : "+$("#"+u_id).children().eq(1).text());
+    	alert("tr td세번째 값 : "+$("#"+u_id).children().eq(2).text());
+    	alert("tr td네번째 값 : "+$("#"+u_id).children().eq(3).text());
+    	alert("tr td다섯번째 값 : "+$("#"+u_id).children().eq(4).text());
+    	$("#bname").val($("#"+u_id).children().eq(1).text());
+    	$("#btitle").val($("#"+u_id).children().eq(2).text());
     	
     }
-    function deleteBtn(u_id){
-    	alert(typeof u_id);
+    function deleteBtn(u_id){  //1
     	alert("tr의 id값 : "+u_id);
     	$("#"+u_id).remove();
     	alert("삭제되었습니다.");
@@ -101,15 +108,7 @@
 	      </tr>
       </thead>
       <tbody id="tbodyContent">
-	      <tr>
-	        <td><input type="checkbox" name="bCheck" id="bCheck" value="b1"></td>
-	        <td><span class="table-notice">aaa</span></td>
-	        <td class="table-title">
-	        <a>글을 작성합니다.</a>
-	        </td>
-	        <td><span onclick="updateBtn()">수정</span></td>
-	        <td><span onclick="deleteBtn()">삭제</span></td>
-	      </tr>
+	      
           <!-- 내용부분 추가 -->
       </tbody>
     </table>
