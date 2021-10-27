@@ -23,9 +23,25 @@
 				bdate:"2021-10-26"
 		}
 		
+		var arr2=[
+			{   bid:3,   //arr2[0].bid
+			btitle:"게시글3",
+			bcontent:"내용입니다3",
+			bname:"이순신",
+			bdate:"2021-10-26"     
+		},
+		{   bid:4,   //arr2[1].bid
+			btitle:"게시글3",
+			bcontent:"내용입니다3",
+			bname:"이순신",
+			bdate:"2021-10-26"     
+		}
+		];
+		
+		//ArrayList
 		var list = [
 				{
-					bid:1,
+					bid:1,     //list[0].bid
 					btitle:"게시글1",
 					bcontent:"내용입니다.",
 					bname:"홍길동",
@@ -37,11 +53,14 @@
 					bcontent:"내용입니다2",
 					bname:"이순신",
 					bdate:"2021-10-26"
-			}
+			},
+			   arr2
 		];
 		
 		
-		document.write(list[0].bid+"<br>");
+		document.write("arr2배열객체 : "+arr2[1].bid+"<br>");
+		document.write("arr2배열객체 : "+list[2][1].bid+"<br>");
+		document.write("list배열객체 : "+list[0].bid+"<br>");
 		document.write(list[0].btitle+"<br>");
 		document.write(list[0].bcontent+"<br>");
 		document.write(list[0].bname+"<br>");
