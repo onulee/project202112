@@ -77,6 +77,7 @@ public class CommentDao {
 			pstmt.setInt(2, u_cno);
 			result = pstmt.executeUpdate();
 			
+			
 			//댓글가져오기
 			sql="select * from cboard where cno=?";
 			pstmt = conn.prepareStatement(sql);
