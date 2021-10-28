@@ -165,7 +165,7 @@ function updateFormBtn(u_cno,u_ccontent,u_cdate){
 	chtml += "<li class='name'>"+userId+" <span>&nbsp;[ "+u_cdate+" ]</span></li>";
 	chtml += "<li class='txt'><textarea id='update_content' class='replyType'>"+u_ccontent+"</textarea></li>";
 	chtml += "<li class='btn'>";
-	chtml += "<a onclick='updateBtn("+u_cno+"\")' class='rebtn'>저장</a>";
+	chtml += "<a onclick='updateBtn("+u_cno+")' class='rebtn'>저장</a>";
 	chtml += "&nbsp;<a onclick='cancelBtn("+u_cno+",\""+u_ccontent+"\",\""+u_cdate+"\")' class='rebtn'>취소</a>";
 	chtml += "</li>";
 	

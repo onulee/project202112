@@ -17,7 +17,7 @@ import com.site.ex.dao.CommentDao;
 import com.site.ex.dto.CommentDto;
 
 
-@WebServlet("/CommentWrite")
+@WebServlet("/CommentUpdate")
 public class CommentUpdate extends HttpServlet {
 	
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

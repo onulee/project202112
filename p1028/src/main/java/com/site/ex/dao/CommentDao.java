@@ -65,12 +65,13 @@ public class CommentDao {
 		result=0;
 		int resultCno=0;
 		CommentDto cDto =null;
+		System.out.println("");
 		try {
 			// connection객체 가져오기
 			conn = getConnection();
 			
 			//수정하기
-			sql="update cboard set ccontent=? cdate=sysdate where cno=?";
+			sql="update cboard set ccontent=?,cdate=sysdate where cno=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, u_ccontent);
 			pstmt.setInt(2, u_cno);
