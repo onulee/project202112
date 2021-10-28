@@ -31,14 +31,15 @@ public class CommentDao {
 	private Timestamp cdate;
 
 	// 전체 게시글 가져오기
-	public ArrayList<CommentDto> selectCboardList() {
+	public ArrayList<CommentDto> selectCboardList(int user_bid) {
 		list = new ArrayList<CommentDto>();
 
 		try {
 			// connection객체 가져오기
 			conn = getConnection();
-			sql="select * from cboard";
+			sql="select * from cboard where bid=?";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, user_bid);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				cno = rs.getInt("cno");

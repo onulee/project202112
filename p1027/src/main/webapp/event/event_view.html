@@ -21,7 +21,7 @@
 <script type="text/javascript">
 $(function() {
 	//id는 Goldenrod
-	var userId="Goldenrod";
+	var userId="aaa";
 	
 	$.ajax({
 		url:"../ExJsonClass",
@@ -29,31 +29,28 @@ $(function() {
 		data:{
 			bid:1
 		},
-		//dataType:"json",
+		dataType:"json",
 		success:function(data){
 			//alert("테스트");
-			//var jsonData = JSON.parse(data);
-			alert(data);
 			var chtml="";
 			var count=0;
-			/* for(var i in data){
-				if(data[i].bid==1){
-					chtml += "<ul id='"+data[i].cno+"'>";
-					chtml += "<li class='name'>"+data[i].id+"<span>&nbsp;[ "+data[i].cdate +" ]</span></li>";
-					chtml += "<li class='txt'>"+data[i].ccontent+"</li>";
-					if(data[i].id==userId){
-						chtml += "<li class='btn'>";
-						chtml += "<a href='#' class='rebtn'>수정</a>";
-						chtml += "&nbsp;<a href='#' class='rebtn'>삭제</a>";
-						chtml += "</li>";
-					}//if
-					chtml += "</ul>";
-					count++;
+			alert(data.commentList.length);
+			for(var i=0;i<data.commentList.length;i++){
+				chtml += "<ul id='"+data.commentList[i].cno+"'>";
+				chtml += "<li class='name'>"+data.commentList[i].id+"<span>&nbsp;[ "+data.commentList[i].cdate +" ]</span></li>";
+				chtml += "<li class='txt'>"+data.commentList[i].ccontent+"</li>";
+				if(data.commentList[i].id==userId){
+					chtml += "<li class='btn'>";
+					chtml += "<a href='#' class='rebtn'>수정</a>";
+					chtml += "&nbsp;<a href='#' class='rebtn'>삭제</a>";
+					chtml += "</li>";
 				}//if
+				chtml += "</ul>";
+				count++;
 			}//for
 			$(".replyBox").html(chtml);
 			//총개수
-			$("#allCount").text(count); */
+			$("#allCount").text(count);
 		},
 		error:function(){
 			alert("에러");
