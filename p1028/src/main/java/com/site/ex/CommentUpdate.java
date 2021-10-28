@@ -11,29 +11,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.site.ex.dao.CommentDao;
 import com.site.ex.dto.CommentDto;
 
 
-@WebServlet("/CommentDelete")
-public class CommentDelete extends HttpServlet {
+@WebServlet("/CommentWrite")
+public class CommentUpdate extends HttpServlet {
 	
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//post 한글처리
 		request.setCharacterEncoding("utf-8");
 		System.out.println("doAction");
 		int cno = Integer.parseInt(request.getParameter("cno"));
-		System.out.println("cno : "+cno);
+		String ccontent = request.getParameter("ccontent");
 		CommentDao cDao = new CommentDao();
 		//입력된 데이터 1개를 다시 가져오기
-		int result = cDao.DeleteCboard(cno);
+		CommentDto cDto = cDao.updateCboard(cno,ccontent);
+		// { "cno":1,"bid":1,"id":"aaa","cpw":"1111","ccontent":"댓글","cdate":"2021-10-27"}
+		JSONObject commentInfo = new JSONObject();
+		commentInfo.put("cno", cDto.getCno());
+		commentInfo.put("bid", cDto.getBid());
+		commentInfo.put("id", cDto.getId());
+		commentInfo.put("cpw", cDto.getCpw());
+		commentInfo.put("ccontent", cDto.getCcontent());
+		String cdate = ""+cDto.getCdate();
+		commentInfo.put("cdate",cdate );
 		
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter writer = response.getWriter();
-		writer.println(result);
+		writer.println(commentInfo.toJSONString());
 		
 		writer.close();
 		

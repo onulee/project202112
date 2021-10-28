@@ -30,9 +30,90 @@ public class CommentDao {
 	private String ccontent;
 	private Timestamp cdate;
 
+	// 댓글삭제
+	public int DeleteCboard(int u_cno) {
+		result=0;
+		try {
+			// connection객체 가져오기
+			conn = getConnection();
+			
+			//삭제
+			sql="delete from cboard where cno=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, u_cno);
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return result;
+	}//DeleteCboard
+	
+	// 댓글수정
+	public CommentDto updateCboard(int u_cno, String u_ccontent) {
+		result=0;
+		int resultCno=0;
+		CommentDto cDto =null;
+		try {
+			// connection객체 가져오기
+			conn = getConnection();
+			
+			//수정하기
+			sql="update cboard set ccontent=? cdate=sysdate where cno=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, u_ccontent);
+			pstmt.setInt(2, u_cno);
+			result = pstmt.executeUpdate();
+			
+			//댓글가져오기
+			sql="select * from cboard where cno=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, u_cno);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				cno = rs.getInt("cno");
+				bid = rs.getInt("bid");
+				id = rs.getString("id");
+				cpw = rs.getString("cpw");
+				ccontent = rs.getString("ccontent");
+				cdate = rs.getTimestamp("cdate");
+				// ArrayList에 추가
+				cDto = new CommentDto(cno, bid, id, cpw, ccontent, cdate);
+				System.out.println("1개가져오기 : "+bid);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return cDto;
+	}//updateCboard
+	
+	
 	// 댓글추가
 	public CommentDto insertCboardWrite(int u_bid, String u_id, String u_cpw, String u_ccontent) {
-		int result=0;
+		result=0;
 		int resultCno=0;
 		CommentDto cDto =null;
 		try {
@@ -144,9 +225,5 @@ public class CommentDao {
 		return conn;
 	}// getConnection
 
-
-	
-
-	
 
 }//class

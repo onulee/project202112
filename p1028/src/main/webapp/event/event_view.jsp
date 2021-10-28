@@ -22,6 +22,7 @@
 <script type="text/javascript" src="../js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="../js/jquery.anchor.js"></script>
 <script type="text/javascript">
+//댓글 전체리스트
 $(function() {
 	//id는 Goldenrod
 	var userId="aaa";
@@ -44,8 +45,9 @@ $(function() {
 				chtml += "<li class='txt'>"+data.commentList[i].ccontent+"</li>";
 				if(data.commentList[i].id==userId){
 					chtml += "<li class='btn'>";
-					chtml += "<a href='#' class='rebtn'>수정</a>";
-					chtml += "&nbsp;<a href='#' class='rebtn'>삭제</a>";
+					                      //cno,ccontent
+					chtml += "<a onclick='updateFormBtn("+data.commentList[i].cno+",\""+data.commentList[i].ccontent+"\",\""+ data.commentList[i].cdate +"\")' class='rebtn'>수정</a>";
+					chtml += "&nbsp;<a onclick='deleteBtn("+data.commentList[i].cno+")' class='rebtn'>삭제</a>";
 					chtml += "</li>";
 				}//if
 				chtml += "</ul>";
@@ -60,11 +62,139 @@ $(function() {
 		}
 	});//ajax
 	
-	
-	
-	
+	//댓글입력 ( ) - bid,id,cpw,ccontent
+	  $(".replyBtn").click(function(){
+		  $.ajax({
+				url:"../CommentWrite",
+				type:"post",
+				data:{ bid:'${param.bid}', 
+					   id:userId,
+					   cpw:$(".replynum").val(),
+					   ccontent:$(".replyType").val()
+				},
+				dataType:"json",
+				success:function(data){
+					alert("성공");
+					alert("data : "+ data.cno);
+					//댓글1개추가
+					//alert("테스트");
+					var chtml="";
+					var count=0;
+					chtml += "<ul id='"+data.cno+"'>";
+					chtml += "<li class='name'>"+data.id+"<span>&nbsp;[ "+data.cdate +" ]</span></li>";
+					chtml += "<li class='txt'>"+data.ccontent+"</li>";
+					if(data.id==userId){
+						chtml += "<li class='btn'>";
+						chtml += "<a onclick='updateFormBtn("+data.cno+",\""+data.ccontent+"\",\""+ data.cdate +"\")' class='rebtn'>수정</a>";
+						chtml += "&nbsp;<a onclick='deleteBtn("+data.cno+")' class='rebtn'>삭제</a>";
+						chtml += "</li>";
+					}//if
+					chtml += "</ul>";
+					$(".replyBox").prepend(chtml);
+					//총개수
+					//$("#allCount").text(count);
+					
+					$(".replynum").val("");
+					$(".replyType").val("");
+					$(".replynum").focus();
+					
+				},
+				error:function(){
+					alert("에러");
+				}
+			});//ajax
+	  });//replyBtn
 	
 });//function()
+
+//댓글 수정저장
+function updateBtn(u_cno){
+	var userId="aaa"; //세션에서 가져옴.
+	alert("u_cno : "+u_cno);
+	alert("u_ccontent : "+$("#update_content").val());
+	$.ajax({
+		url:"../CommentUpdate",
+		type:"post",
+		data:{ cno:u_cno, 
+			   id:userId,
+			   ccontent:$("#update_content").val()
+		},
+		dataType:"json",
+		success:function(data){
+			alert("성공");
+			alert("data : "+ data.cno);
+			//댓글1개수정
+			var chtml="";
+			var count=0;
+			chtml += "<li class='name'>"+data.id+"<span>&nbsp;[ "+data.cdate +" ]</span></li>";
+			chtml += "<li class='txt'>"+data.ccontent+"</li>";
+			chtml += "<li class='btn'>";
+			chtml += "<a onclick='updateFormBtn("+data.cno+",\""+data.ccontent+"\",\""+ data.cdate +"\")' class='rebtn'>수정</a>";
+			chtml += "&nbsp;<a onclick='deleteBtn("+data.cno+")' class='rebtn'>삭제</a>";
+			chtml += "</li>";
+			$("#"+u_cno).html(chtml);
+		},
+		error:function(){
+			alert("에러");
+		}
+	});//ajax
+}//updateBtn
+
+
+//댓글 수정취소
+function cancelBtn(u_cno,u_ccontent,u_cdate){
+	var userId="aaa"; //세션에서 가져옴.
+	//alert("테스트");
+	var chtml="";
+	var count=0;
+	chtml += "<li class='name'>"+userId+"<span>&nbsp;[ "+u_cdate +" ]</span></li>";
+	chtml += "<li class='txt'>"+u_ccontent+"</li>";
+	chtml += "<li class='btn'>";
+	chtml += "<a onclick='updateFormBtn("+u_cno+",\""+u_ccontent+"\",\""+ u_cdate +"\")' class='rebtn'>수정</a>";
+	chtml += "&nbsp;<a onclick='deleteBtn("+u_cno+")' class='rebtn'>삭제</a>";
+	chtml += "</li>";
+	$("#"+u_cno).html(chtml);
+}//cancelBtn
+
+
+//댓글 수정폼
+function updateFormBtn(u_cno,u_ccontent,u_cdate){
+	var userId="aaa"; //세션에서 가져옴.
+	alert("u_cno : "+u_cno);
+	var chtml="";
+	chtml += "<li class='name'>"+userId+" <span>&nbsp;[ "+u_cdate+" ]</span></li>";
+	chtml += "<li class='txt'><textarea id='update_content' class='replyType'>"+u_ccontent+"</textarea></li>";
+	chtml += "<li class='btn'>";
+	chtml += "<a onclick='updateBtn("+u_cno+"\")' class='rebtn'>저장</a>";
+	chtml += "&nbsp;<a onclick='cancelBtn("+u_cno+",\""+u_ccontent+"\",\""+u_cdate+"\")' class='rebtn'>취소</a>";
+	chtml += "</li>";
+	
+	$("#"+u_cno).html(chtml);
+}//updateFormBtn
+
+
+//댓글 삭제
+function deleteBtn(u_cno){
+	alert("삭제버튼클릭 : "+u_cno);
+	$.ajax({
+		url:"../CommentDelete",
+		type:"post",
+		data:{ 
+			   cno:u_cno
+		},
+		dataType:"json",
+		success:function(data){
+			alert("리턴결과값 : "+data);
+			$("#"+u_cno).remove();
+			alert("댓글이 정상적으로 삭제되었습니다!");
+		},
+		error:function(){
+			alert("에러");
+		}
+	});//ajax
+}//deleteBtn
+
+
 </script>
 </head>
 <body>
@@ -237,49 +367,7 @@ $(function() {
 					<!-- //이전다음글 -->
 <script type="text/javascript">
    $(function(){
-	  var userId="aaa"; 
-	  //댓글입력 ( ) - bid,id,cpw,ccontent
-	  $(".replyBtn").click(function(){
-		  $.ajax({
-				url:"../CommentWrite",
-				type:"post",
-				data:{ bid:'${param.bid}', 
-					   id:userId,
-					   cpw:$(".replynum").val(),
-					   ccontent:$(".replyType").val()
-				},
-				dataType:"json",
-				success:function(data){
-					alert("성공");
-					alert("data : "+ data.cno);
-					//댓글1개추가
-					//alert("테스트");
-					var chtml="";
-					var count=0;
-					chtml += "<ul id='"+data.cno+"'>";
-					chtml += "<li class='name'>"+data.id+"<span>&nbsp;[ "+data.cdate +" ]</span></li>";
-					chtml += "<li class='txt'>"+data.ccontent+"</li>";
-					if(data.id==userId){
-						chtml += "<li class='btn'>";
-						chtml += "<a href='#' class='rebtn'>수정</a>";
-						chtml += "&nbsp;<a href='#' class='rebtn'>삭제</a>";
-						chtml += "</li>";
-					}//if
-					chtml += "</ul>";
-					$(".replyBox").prepend(chtml);
-					//총개수
-					//$("#allCount").text(count);
-					
-					$(".replynum").val("");
-					$(".replyType").val("");
-					$(".replynum").focus();
-					
-				},
-				error:function(){
-					alert("에러");
-				}
-			});//ajax
-	  });
+	  
    });
 </script>
 
@@ -306,17 +394,17 @@ $(function() {
 								<a href="#" class="rebtn">삭제</a>
 							</li>
 						</ul>
-						<!-- 입력댓글 -->
-                        <!-- 비밀댓글 -->
-						<!--  
 						<ul>
 							<li class="name">jjabcde <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></li>
 							<li class="txt"><textarea class="replyType"></textarea></li>
 							<li class="btn">
-								<a href="#" class="rebtn">수정</a>
-								<a href="#" class="rebtn">삭제</a>
+								<a href="#" class="rebtn">저장</a>
+								<a href="#" class="rebtn">취소</a>
 							</li>
 						</ul>
+						<!-- 입력댓글 -->
+                        <!-- 비밀댓글 -->
+						<!--  
 						<ul>
 							<li class="name">jjabcde <span>[2014-03-04&nbsp;&nbsp;15:01:59]</span></li>
 							<li class="txt">
