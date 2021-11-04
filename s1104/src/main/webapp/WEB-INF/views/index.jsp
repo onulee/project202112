@@ -20,7 +20,7 @@
 	    <li>회원가입</li>
 	    <li><a href="member/logout">로그아웃</a></li>
 	    <li>게시판</li>
-	    <li>회원정보</li>
+	    <li><a href="member/memberList">전체회원정보</a></li>
 	  </ul>
 	
 	</body>

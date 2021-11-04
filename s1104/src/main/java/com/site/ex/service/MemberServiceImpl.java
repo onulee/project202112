@@ -3,6 +3,7 @@ package com.site.ex.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.site.ex.mapper.MemberMapper;
@@ -17,7 +18,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override //전체회원정보
 	public List<Member> memberList() {
 		List<Member> list = memberMapper.selectMemberList();
-		return null;
-	}
+		return list;
+	}//memberList
 
 }
