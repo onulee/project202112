@@ -32,8 +32,6 @@ public class MemberController {
 		return "member/memberList";
 	}
 	
-	
-	
 	@RequestMapping("/index")
 	public String index() {
 		return "index";
@@ -47,12 +45,15 @@ public class MemberController {
 	@PostMapping("/member/login") //로그인 id,pw확인메소드
 	public String login(@RequestParam String id,@RequestParam String pw
 			,Model model,HttpServletRequest request) {
-		System.out.println("login post id : "+id);
 		HttpSession session = request.getSession();
-		//db확인
-		if(id.equals("admin") && pw.equals("1111")) {
+		System.out.println("login post id : "+id);
+		//db확인을 하기 위해서 id,pw
+		Member member = memberService.login(id,pw);
+		
+		//id존재여부확인
+		if(member != null) {
 			session.setAttribute("session_id", id);
-			session.setAttribute("session_nickName", "길동스");
+			session.setAttribute("session_name", member.getName());
 			model.addAttribute("msg","1");
 		}else {
 			model.addAttribute("msg","0");

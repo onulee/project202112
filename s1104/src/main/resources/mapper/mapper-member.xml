@@ -4,8 +4,14 @@
 
 <mapper namespace="com.site.ex.mapper.MemberMapper">
 
+    <!-- 전체회원 정보 -->
 	<select id="selectMemberList" resultType="com.site.ex.vo.Member">
 		select * from member
+	</select>
+	
+	<!-- 로그인 확인 -->
+	<select id="selectLogin" resultType="com.site.ex.vo.Member">
+	    select * from member where id=#{id} and pw=#{pw}
 	</select>
 	
 

@@ -9,4 +9,7 @@ public interface MemberService {
 	//전체회원정보 메소드
 	List<Member> memberList();
 
+	//로그인 확인
+	Member login(String id, String pw);
+
 }

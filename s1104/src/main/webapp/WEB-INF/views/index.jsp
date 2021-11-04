@@ -10,7 +10,7 @@
 	<body>
 	  <h2>메인페이지</h2>
 	  <c:if test="${session_id != null }">
-	    <h2>닉네임 : ${session_nickName}</h2>
+	    <h2>닉네임 : ${session_name}</h2>
 	  </c:if>
 	  <c:if test="${session_id == null }">
 	    <h2>로그인을 해주세요.</h2>
@@ -19,7 +19,7 @@
 	    <li><a href="member/login">로그인</a></li>
 	    <li>회원가입</li>
 	    <li><a href="member/logout">로그아웃</a></li>
-	    <li>게시판</li>
+	    <li><a href="board/list">게시판</a></li>
 	    <li><a href="member/memberList">전체회원정보</a></li>
 	  </ul>
 	

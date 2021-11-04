@@ -21,4 +21,11 @@ public class MemberServiceImpl implements MemberService {
 		return list;
 	}//memberList
 
+	@Override //로그인 확인
+	public Member login(String id, String pw) {
+		Member member = memberMapper.selectLogin(id,pw);
+		//System.out.println("service id : "+member.getId());
+		return member;
+	}
+
 }
