@@ -1,6 +1,6 @@
 package com.site.ex.vo;
 
-import java.security.Timestamp;
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +15,7 @@ public class BoardVo {
 	String bname;
 	String btitle;
 	String bcontent;
-	Timestamp bdate;
+	Date bdate;
 	int bhit;
 	int bgroup;
 	int bstep;

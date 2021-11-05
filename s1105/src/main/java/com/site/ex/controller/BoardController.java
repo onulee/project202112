@@ -7,22 +7,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.site.ex.dto.BoardDto;
 import com.site.ex.service.BoardService;
-import com.site.ex.vo.BoardVo;
 
 @Controller
+@RequestMapping("/board")
 public class BoardController {
-	
+
 	@Autowired
 	BoardService boardService;
 	
-	@RequestMapping("/board/list")
+	@RequestMapping("/list")
 	public String list(Model model) {
-		//전체게시판
-		List<BoardVo> list = boardService.list();
+		// 전체게시글 가져오기
+		List<BoardDto> list = boardService.list();
 		model.addAttribute("list",list);
-		System.out.println("date : "+list.get(0).getBdate());
 		return "board/list";
 	}
-
 }
