@@ -76,7 +76,7 @@
       <li class="last"></li>
     </ul>
 
-    <a href="write_view.jsp"><div class="write">쓰기</div></a>
+    <a href="./write_view"><div class="write">쓰기</div></a>
   </section>
 
 </body>

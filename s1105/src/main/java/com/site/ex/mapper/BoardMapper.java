@@ -14,8 +14,17 @@ public interface BoardMapper {
 
 	//게시글 1개 가져오기
 	BoardDto selectBoardOne(int bid);
+	// 조회수 1증가
+	void updateBhit(int bid);
 
-	//게시글 삭제하기
+	//게시글 1개 삭제하기
 	int boardDelete(int bid);
+
+	//게시글 1개 저장
+	int updateModify(BoardDto boardDto);
+
+	//게시글 1개 저장:insert
+	int insertWrite(BoardDto boardDto);
+
 
 }

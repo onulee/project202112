@@ -15,7 +15,7 @@
   <script type="text/javascript">
 	 function deleteBtn(bid){
 		 if(confirm("해당 게시글을 삭제하시겠습니까?")){
-			 location.href="./delete?bid"+bid;
+			 location.href="./delete?bid="+bid;
 		 }else{
 			 return false;
 		 }
@@ -61,8 +61,8 @@
     </table>
 
     <a href="./list"><div class="list">목록</div></a>
-    <a href=""><div class="list" onclick="deleteBtn(${bDto.bid})">삭제</div></a>
-    <a href="./modify_view"><div class="list">수정</div></a>
+    <a href="#"><div class="list" onclick="deleteBtn(${bDto.bid})" >삭제</div></a>
+    <a href="./modify_view?bid=${bDto.bid}"><div class="list">수정</div></a>
     <a href="./reply_view"><div class="list">답변달기</div></a>
   </section>
 </body>

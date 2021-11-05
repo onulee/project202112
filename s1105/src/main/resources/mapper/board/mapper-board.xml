@@ -14,15 +14,31 @@
 		select * from board where bid=#{bid}
 	</select>
 	
-    <!-- 게시글 1개 가져오기 -->
-	<select id="selectBoardOne" resultType="com.site.ex.dto.BoardDto">
-		select * from board where bid=#{bid}
-	</select>
+	<!-- 조회수 1증가 -->
+	<update id="updateBhit">
+	    update board set bhit=bhit+1 where bid=#{bid}
+	</update>
 	
-	<!-- 게시글 삭제하기 -->
-	<delete id="boardDelete">
-	  delete board where bid=#{bid}
+	<!-- 게시글 1개 삭제하기 -->
+	<delete id="boardDelete" >
+	    delete board where bid=#{bid}
 	</delete>
+	
+	<!-- 게시글 1개 업데이트 -->
+	<update id="updateModify">
+	    update board set btitle=#{btitle},bcontent=#{bcontent}
+	    where bid=#{bid}
+	</update>
+	
+	<!-- 게시글 1개 저장하기 -->
+	<insert id="insertWrite">
+	    insert into board values(
+	    b_seq.nextval,#{bname},#{btitle},#{bcontent},sysdate,
+	    0,b_seq.currval,0,0,#{bupload} 
+	    )
+	</insert>
+	
+    
 	
 </mapper>	
 	

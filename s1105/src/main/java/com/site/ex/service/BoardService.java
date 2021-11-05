@@ -12,8 +12,14 @@ public interface BoardService {
 	//게시글 1개 가져오기
 	BoardDto boardOne(int bid);
 
-	//게시글 삭제하기
-	int boardDelete(int bid);
+	//게시글 1개 삭제하기
+	int delete(int bid);
+
+	//게시글 1개 저장
+	int modify(BoardDto boardDto);
+
+	//게시글 1개 저장:insert
+	int write(BoardDto boardDto);
 
 	
 
