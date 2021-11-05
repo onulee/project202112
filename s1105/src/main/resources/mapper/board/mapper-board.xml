@@ -4,10 +4,25 @@
 
 <mapper namespace="com.site.ex.mapper.BoardMapper">
 
-    <!-- 전체회원 정보 -->
+    <!-- 전체게시글 가져오기 -->
 	<select id="selectList" resultType="com.site.ex.dto.BoardDto">
 		select * from board order by bgroup desc,bstep asc
 	</select>
+    
+    <!-- 게시글 1개 가져오기 -->
+	<select id="selectBoardOne" resultType="com.site.ex.dto.BoardDto">
+		select * from board where bid=#{bid}
+	</select>
+	
+    <!-- 게시글 1개 가져오기 -->
+	<select id="selectBoardOne" resultType="com.site.ex.dto.BoardDto">
+		select * from board where bid=#{bid}
+	</select>
+	
+	<!-- 게시글 삭제하기 -->
+	<delete id="boardDelete">
+	  delete board where bid=#{bid}
+	</delete>
 	
 </mapper>	
 	

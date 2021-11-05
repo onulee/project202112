@@ -3,6 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <!DOCTYPE html>
 <html>
+<c:if test="${session_id ==null }">
+  <script type="text/javascript">
+     alert("로그인을 하셔야 서비스가 가능합니다.");
+     history.back();
+  </script>
+</c:if>
 <head>
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,7 +58,7 @@
 	      <tr>
 	        <td><span class="table-notice">${boardDto.bid}</span></td>
 	        <td class="table-title">
-	        <a href="">${boardDto.btitle}</a>
+	        <a href="./content_view?bid=${boardDto.bid}">${boardDto.btitle}</a>
 	        </td>
 	        <td>${boardDto.bname}</td>
 	        <td>${boardDto.bdate}</td>

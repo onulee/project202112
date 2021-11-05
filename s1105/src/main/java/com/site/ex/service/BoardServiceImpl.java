@@ -20,4 +20,16 @@ public class BoardServiceImpl implements BoardService {
 		return list;
 	}
 
+	@Override //게시글 1개 가져오기
+	public BoardDto boardOne(int bid) {
+		BoardDto bDto = boardMapper.selectBoardOne(bid);
+		return bDto;
+	}
+
+	@Override //게시글 삭제하기
+	public int boardDelete(int bid) {
+		int result = boardMapper.boardDelete(bid);
+		return result;
+	}
+
 }
