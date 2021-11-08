@@ -30,11 +30,25 @@
 	    where bid=#{bid}
 	</update>
 	
-	<!-- 게시글 1개 저장하기 -->
+	<!-- 게시글 1개 저장하기 : 쓰기 -->
 	<insert id="insertWrite">
 	    insert into board values(
 	    b_seq.nextval,#{bname},#{btitle},#{bcontent},sysdate,
 	    0,b_seq.currval,0,0,#{bupload} 
+	    )
+	</insert>
+	
+	<!-- 답변달기추가 //부모게시글 아래 있는 답변글에 1씩 증가 -->
+	<update id="updateReplyPlus">
+	    update board set btitle=#{btitle},bcontent=#{bcontent}
+	    where bid=#{bid}
+	</update>
+	
+	<!-- 게시글 1개 저장하기 : 답변달기 -->
+	<insert id="insertReply">
+	    insert into board values(
+	    b_seq.nextval,#{bname},#{btitle},#{bcontent},sysdate,
+	    0,#{bgroup},#{bstep+1},#{bindent+1},#{bupload} 
 	    )
 	</insert>
 	

@@ -29,7 +29,7 @@ public class BoardController {
 	
 	@RequestMapping("/content_view")
 	public String content_view(@RequestParam int bid,Model model) {
-		//게시글 1개 가져오기
+		//게시글 1개 가져오기 : 뷰페이지
 		System.out.println("content_view bid : "+bid);
 		BoardDto bDto = boardService.boardOne(bid);
 		model.addAttribute("bDto",bDto);
@@ -62,19 +62,36 @@ public class BoardController {
 	
 	@GetMapping("/modify_view")
 	public String modify_view(@RequestParam int bid,Model model) {
-		//게시글 1개 가져오기
+		//게시글 1개 가져오기 : 수정하기
 		System.out.println("modify_view bid : "+bid);
 		BoardDto bDto = boardService.boardOne(bid);
 		model.addAttribute("bDto",bDto);
 		return "board/modify_view";
 	}
 	
-	@RequestMapping("modify")
+	@RequestMapping("/modify")
 	public String modify(BoardDto boardDto) {
 		System.out.println("modify bid : "+boardDto.getBid());
 		//게시글 1개 저장:update
 		int result = boardService.modify(boardDto);
 		System.out.println("modify 결과 : "+result);
+		return "redirect:./content_view?bid="+boardDto.getBid();
+	}
+	
+	@RequestMapping("/reply_view")
+	public String reply_view(@RequestParam int bid,Model model) {
+		System.out.println("reply_view bid : "+bid);
+		//게시글 1개 가져오기 : 답변달기페이지
+		BoardDto bDto = boardService.boardOne(bid);
+		model.addAttribute("bDto",bDto);
+		return "board/reply_view";
+	}
+	
+	@RequestMapping("/reply")
+	public String reply(BoardDto boardDto) {
+		System.out.println("reply bid : "+boardDto.getBid());
+		//게시글 1개 저장 : 답변달기
+		int result = boardService.reply(boardDto);
 		return "redirect:./content_view?bid="+boardDto.getBid();
 	}
 	

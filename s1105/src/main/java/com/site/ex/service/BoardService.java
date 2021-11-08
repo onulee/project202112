@@ -21,6 +21,9 @@ public interface BoardService {
 	//게시글 1개 저장:insert
 	int write(BoardDto boardDto);
 
+	//게시글 1개 저장 : 답변달기
+	int reply(BoardDto boardDto);
+
 	
 
 }

@@ -48,5 +48,14 @@ public class BoardServiceImpl implements BoardService {
 		return result;
 	}
 
+	@Override //게시글 1개 저장 : 답변달기
+	public int reply(BoardDto boardDto) {
+		//부모게시글 아래 있는 답변글에 1씩 증가
+		boardMapper.updateReplyPlus(boardDto);
+		//게시글 1개 저장 : 답변달기
+		int result = boardMapper.insertReply(boardDto);
+		return result;
+	}
+
 
 }

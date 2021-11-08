@@ -26,5 +26,11 @@ public interface BoardMapper {
 	//게시글 1개 저장:insert
 	int insertWrite(BoardDto boardDto);
 
+	//게시글 1개 저장 : 답변달기
+	int insertReply(BoardDto boardDto);
+
+	//부모게시글 아래 있는 답변글에 1씩 증가
+	void updateReplyPlus(BoardDto boardDto);
+
 
 }
