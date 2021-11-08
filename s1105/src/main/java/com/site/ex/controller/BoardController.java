@@ -1,8 +1,10 @@
 package com.site.ex.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.site.ex.dto.BoardDto;
+import com.site.ex.dto.NumberDto;
 import com.site.ex.service.BoardService;
 
 @Controller
@@ -20,19 +23,23 @@ public class BoardController {
 	BoardService boardService;
 	
 	@RequestMapping("/list")
-	public String list(Model model) {
+	public String list(NumberDto numberDto,Model model) {
 		// 전체게시글 가져오기
-		List<BoardDto> list = boardService.list();
-		model.addAttribute("list",list);
+		Map<String, Object> map = boardService.list(numberDto);
+		model.addAttribute("map",map);
 		return "board/list";
 	}
 	
 	@RequestMapping("/content_view")
-	public String content_view(@RequestParam int bid,Model model) {
+	public String content_view(@RequestParam int bid,
+			NumberDto nDto,Model model) {
 		//게시글 1개 가져오기 : 뷰페이지
 		System.out.println("content_view bid : "+bid);
+		System.out.println("nDto bid : "+nDto.getCategory());
+		System.out.println("nDto bid : "+nDto.getSearchWord());
 		BoardDto bDto = boardService.boardOne(bid);
 		model.addAttribute("bDto",bDto);
+		model.addAttribute("nDto",nDto);
 		return "board/content_view";
 	}
 	
@@ -92,7 +99,7 @@ public class BoardController {
 		System.out.println("reply bid : "+boardDto.getBid());
 		//게시글 1개 저장 : 답변달기
 		int result = boardService.reply(boardDto);
-		return "redirect:./content_view?bid="+boardDto.getBid();
+		return "redirect:./list";
 	}
 	
 	

@@ -1,13 +1,15 @@
 package com.site.ex.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.site.ex.dto.BoardDto;
+import com.site.ex.dto.NumberDto;
 
 public interface BoardService {
 
 	//전체게시글 가져오기
-	List<BoardDto> list();
+	Map<String, Object> list(NumberDto numberDto);
 
 	//게시글 1개 가져오기
 	BoardDto boardOne(int bid);

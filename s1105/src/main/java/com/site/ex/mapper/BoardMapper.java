@@ -10,7 +10,7 @@ import com.site.ex.dto.BoardDto;
 public interface BoardMapper {
 
 	//전체게시글 가져오기
-	List<BoardDto> selectList();
+	List<BoardDto> selectList(int startrow, int endrow, String category, String searchWord);
 
 	//게시글 1개 가져오기
 	BoardDto selectBoardOne(int bid);
@@ -31,6 +31,9 @@ public interface BoardMapper {
 
 	//부모게시글 아래 있는 답변글에 1씩 증가
 	void updateReplyPlus(BoardDto boardDto);
+
+	//총게시글 수
+	int selectListCount(String category, String searchWord);
 
 
 }

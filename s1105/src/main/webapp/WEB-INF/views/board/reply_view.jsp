@@ -52,6 +52,7 @@
           <th>내용</th>
           <td>
 <textarea name="bcontent" cols="50" rows="10">
+
 ---------------------------
 [답글]
 ${bDto.bcontent }
@@ -68,7 +69,7 @@ ${bDto.bcontent }
       <hr>
       <div class="button-wrapper">
         <button type="button" onclick="replyBtn()" class="write">답변완료</button>
-        <button type="button" class="cancel" onclick="javascript:location.href='list.do'">취소</button>
+        <button type="button" class="cancel" onclick="javascript:location.href='list'">취소</button>
       </div>
     </form>
 
