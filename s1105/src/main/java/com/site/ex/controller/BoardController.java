@@ -1,5 +1,7 @@
 package com.site.ex.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.site.ex.dto.BoardDto;
 import com.site.ex.dto.NumberDto;
@@ -37,8 +41,8 @@ public class BoardController {
 		System.out.println("content_view bid : "+bid);
 		System.out.println("nDto bid : "+nDto.getCategory());
 		System.out.println("nDto bid : "+nDto.getSearchWord());
-		BoardDto bDto = boardService.boardOne(bid);
-		model.addAttribute("bDto",bDto);
+		Map<String, Object> map = boardService.boardOne(bid);
+		model.addAttribute("map",map);
 		model.addAttribute("nDto",nDto);
 		return "board/content_view";
 	}
@@ -59,9 +63,26 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/write")
-	public String write(BoardDto boardDto) {
+	public String write(BoardDto boardDto,
+			@RequestPart MultipartFile file) {
 		//게시글 1개 저장:insert
-		boardDto.setBupload("1.jpg");
+		//파일이름 가져오기
+		String originFileName = file.getOriginalFilename();
+		long time = System.currentTimeMillis(); //01241514545512
+		//중복방지 파일이름생성
+		String newFileName = String.format("%d_%s", time,originFileName); 
+		//파일 저장 위치
+		String fileSaveUrl="C:/fileSave/";
+		// 파일생성 c:/fileSave/1.jpg
+		File f = new File(fileSaveUrl+newFileName);
+		// 파일 업로드
+		try {
+			file.transferTo(f);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//파일이름 dto저장
+		boardDto.setBupload(newFileName);
 		int result = boardService.write(boardDto);
 		System.out.println("write 결과 : "+result);
 		return "redirect:./list";
@@ -71,8 +92,8 @@ public class BoardController {
 	public String modify_view(@RequestParam int bid,Model model) {
 		//게시글 1개 가져오기 : 수정하기
 		System.out.println("modify_view bid : "+bid);
-		BoardDto bDto = boardService.boardOne(bid);
-		model.addAttribute("bDto",bDto);
+		Map<String, Object> map = boardService.boardOne(bid);
+		model.addAttribute("map",map);
 		return "board/modify_view";
 	}
 	
@@ -89,8 +110,8 @@ public class BoardController {
 	public String reply_view(@RequestParam int bid,Model model) {
 		System.out.println("reply_view bid : "+bid);
 		//게시글 1개 가져오기 : 답변달기페이지
-		BoardDto bDto = boardService.boardOne(bid);
-		model.addAttribute("bDto",bDto);
+		Map<String, Object> map = boardService.boardOne(bid);
+		model.addAttribute("map",map);
 		return "board/reply_view";
 	}
 	

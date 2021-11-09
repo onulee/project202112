@@ -26,7 +26,7 @@
     <h1>관리자 글쓰기</h1>
     <hr>
 
-    <form action="./write" name="write" id="write" method="post">
+    <form action="./write" name="write" id="write" method="post" enctype="multipart/form-data">
       <table>
         <colgroup>
           <col width="15%">
@@ -53,7 +53,7 @@
         <tr>
           <th>이미지 표시</th>
           <td>
-            <input type="file" name="bupload" id="bupload">
+            <input type="file" name="file" id="file">
           </td>
         </tr>
       </table>

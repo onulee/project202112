@@ -12,7 +12,7 @@ public interface BoardService {
 	Map<String, Object> list(NumberDto numberDto);
 
 	//게시글 1개 가져오기
-	BoardDto boardOne(int bid);
+	Map<String, Object> boardOne(int bid);
 
 	//게시글 1개 삭제하기
 	int delete(int bid);

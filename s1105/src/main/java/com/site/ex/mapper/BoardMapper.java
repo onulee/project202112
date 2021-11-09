@@ -14,6 +14,10 @@ public interface BoardMapper {
 
 	//게시글 1개 가져오기
 	BoardDto selectBoardOne(int bid);
+	//게시글 1개 가져오기(preview)
+	BoardDto selectBoardOnePre(int bid);
+	//게시글 1개 가져오기(next)
+	BoardDto selectBoardOneNext(int bid);
 	// 조회수 1증가
 	void updateBhit(int bid);
 
@@ -34,6 +38,9 @@ public interface BoardMapper {
 
 	//총게시글 수
 	int selectListCount(String category, String searchWord);
+
+	
+
 
 
 }

@@ -6,7 +6,7 @@
 
     <!-- 전체게시글 가져오기 -->
 	<select id="selectList" resultType="com.site.ex.dto.BoardDto">
-		<if test="searchWord == null">
+		<if test='searchWord == null or searchWord.equals("")'>
 			<![CDATA[
 			select * from 
 			(select rownum as rnum,a.* from 
@@ -16,11 +16,11 @@
 			]]>
 		</if>
 		<if test="searchWord != null">
+			<if test='category.equals("all")'>
+				<![CDATA[
 				select * from 
 				(select rownum as rnum,a.* from 
 		        (select * from board 
-			<if test='category.equals("all")'>
-				<![CDATA[
 		        where btitle like '%'||#{searchWord}||'%'
 		        or bcontent like '%'||#{searchWord}||'%'
 		        order by bgroup desc,bstep asc) a) 
@@ -29,6 +29,9 @@
 			</if>
 			<if test='category.equals("btitle") or category.equals("bcontent")'>
 				<![CDATA[
+		        select * from 
+				(select rownum as rnum,a.* from 
+		        (select * from board
 		        where ${category} like '%'||#{searchWord}||'%'
 		        order by bgroup desc,bstep asc) a) 
 		        where rnum>=#{startrow} and rnum<=#{endrow}
@@ -57,6 +60,32 @@
     <!-- 게시글 1개 가져오기 -->
 	<select id="selectBoardOne" resultType="com.site.ex.dto.BoardDto">
 		select * from board where bid=#{bid}
+	</select>
+    <!-- 게시글 1개 가져오기 : preview -->
+	<select id="selectBoardOnePre" resultType="com.site.ex.dto.BoardDto">
+		select * from 
+		(select rownum as rnum,a.* from 
+		(select * from board 
+		order by bgroup desc,bstep asc) a) 
+		where rnum = 
+		(select rnum from 
+		(select rownum as rnum,a.* from 
+		(select * from board 
+		order by bgroup desc,bstep asc) a) 
+		where bid=#{bid})-1
+	</select>
+    <!-- 게시글 1개 가져오기 : next -->
+	<select id="selectBoardOneNext" resultType="com.site.ex.dto.BoardDto">
+		select * from 
+		(select rownum as rnum,a.* from 
+		(select * from board 
+		order by bgroup desc,bstep asc) a) 
+		where rnum = 
+		(select rnum from 
+		(select rownum as rnum,a.* from 
+		(select * from board 
+		order by bgroup desc,bstep asc) a) 
+		where bid=#{bid})+1
 	</select>
 	
 	<!-- 조회수 1증가 -->

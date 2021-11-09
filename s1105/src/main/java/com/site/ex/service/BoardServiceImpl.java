@@ -22,7 +22,10 @@ public class BoardServiceImpl implements BoardService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		//넘버링 메소드 호출
 		NumberDto nDto = numberling(numberDto);
-		
+		if(nDto.getSearchWord() ==null)
+		    System.out.println("searchWord : "+nDto.getSearchWord());
+		else
+			System.out.println("searchWord no : "+nDto.getSearchWord());
 		//게시글 가져오기
 		List<BoardDto> list = boardMapper.selectList(nDto.getStartrow(),nDto.getEndrow(),nDto.getCategory(),nDto.getSearchWord());
 		System.out.println("nDto.getListCount(): "+nDto.getListCount());
@@ -34,11 +37,19 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override //게시글 1개 가져오기
-	public BoardDto boardOne(int bid) {
+	public Map<String, Object> boardOne(int bid) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		// 조회수 1증가
 		boardMapper.updateBhit(bid);
 		BoardDto bDto = boardMapper.selectBoardOne(bid);
-		return bDto;
+		//게시글 1개 가져오기(preview)
+		BoardDto preDto = boardMapper.selectBoardOnePre(bid);
+		//게시글 1개 가져오기(next)
+		BoardDto nextDto = boardMapper.selectBoardOneNext(bid);
+		map.put("bDto", bDto);
+		map.put("preDto", preDto);
+		map.put("nextDto", nextDto);
+		return map;
 	}
 
 	@Override //게시글 1개 삭제하기

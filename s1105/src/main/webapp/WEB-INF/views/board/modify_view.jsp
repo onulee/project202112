@@ -29,7 +29,7 @@
 
     <form action="./modify" name="modify" id="modify" method="post">
       <table>
-      <input type="hidden" name="bid" value="${bDto.bid}">
+      <input type="hidden" name="bid" value="${map.bDto.bid}">
         <colgroup>
           <col width="15%">
           <col width="85%">
@@ -37,24 +37,24 @@
         <tr>
           <th>작성자</th>
           <td>
-            <input type="text" name="bname" value="${bDto.bname}" readonly>
+            <input type="text" name="bname" value="${map.bDto.bname}" readonly>
           </td>
         </tr>
         <tr>
           <th>제목</th>
           <td>
-            <input type="text" name="btitle" value="${bDto.btitle}">
+            <input type="text" name="btitle" value="${map.bDto.btitle}">
           </td>
         </tr>
         <tr>
           <th>내용</th>
           <td>
-            <textarea name="bcontent" cols="50" rows="10">${bDto.bcontent}</textarea>
+            <textarea name="bcontent" cols="50" rows="10">${map.bDto.bcontent}</textarea>
           </td>
         </tr>
         <tr>
           <th>파일이름</th>
-          <td>${bDto.bupload }</td>
+          <td>${map.bDto.bupload }</td>
         </tr>
         <tr>
           <th>이미지 표시</th>

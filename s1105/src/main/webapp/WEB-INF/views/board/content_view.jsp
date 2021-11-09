@@ -35,35 +35,40 @@
       </colgroup>
       <tr>
         <th>제목</th>
-        <th colspan="3"><span class="separator">|</span>${bDto.btitle}</th>
+        <th colspan="3"><span class="separator">|</span>${map.bDto.btitle}</th>
       </tr>
       <tr>
         <td><strong>작성자</strong></td>
-        <td><span class="separator">|</span>${bDto.bname}</td>
+        <td><span class="separator">|</span>${map.bDto.bname}</td>
         <td><strong>조회수</strong></td>
-        <td>${bDto.bhit}</td>
+        <td>${map.bDto.bhit}</td>
       </tr>
       <tr>
-        <td colspan="4" class="article">${bDto.bcontent}</td>
+        <td colspan="4" class="article">${map.bDto.bcontent}</td>
+      </tr>
+      <tr>
+        <td colspan="4" class="article">
+          <img src="../upload/${map.bDto.bupload}">
+        </td>
       </tr>
       <tr>
         <td><strong>파일이름</strong></td>
-        <td colspan="3"><span class="separator">|</span>${bDto.bupload}</td>
+        <td colspan="3"><span class="separator">|</span>${map.bDto.bupload}</td>
       </tr>
       <tr>
         <td><strong>다음글</strong></td>
-        <td colspan="3"><span class="separator">|</span>[키즈잼] 2월 프로그램 안내</td>
+        <td colspan="3"><span class="separator">|</span><a href="./content_view?bid=${map.nextDto.bid}&page=${nDto.page}&category=${nDto.category}&searchWord=${nDto.searchWord}">[공지]${map.nextDto.btitle}</a></td>
       </tr>
       <tr>
         <td><strong>이전글</strong></td>
-        <td colspan="3"><span class="separator">|</span> [키즈잼] 2020년 1분기 정기 휴관일 안내</td>
+        <td colspan="3"><span class="separator">|</span><a href="./content_view?bid=${map.preDto.bid}&page=${nDto.page}&category=${nDto.category}&searchWord=${nDto.searchWord}">[공지]${map.preDto.btitle}</a></td>
       </tr>
     </table>
 
     <a href="./list?page=${nDto.page}&category=${nDto.category}&searchWord=${nDto.searchWord}"><div class="list">목록</div></a>
-    <a href="#"><div class="list" onclick="deleteBtn(${bDto.bid})" >삭제</div></a>
-    <a href="./modify_view?bid=${bDto.bid}"><div class="list">수정</div></a>
-    <a href="./reply_view?bid=${bDto.bid}"><div class="list">답변달기</div></a>
+    <a href="#"><div class="list" onclick="deleteBtn(${map.bDto.bid})" >삭제</div></a>
+    <a href="./modify_view?bid=${map.bDto.bid}"><div class="list">수정</div></a>
+    <a href="./reply_view?bid=${map.bDto.bid}"><div class="list">답변달기</div></a>
   </section>
 </body>
 </html>

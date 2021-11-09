@@ -28,10 +28,10 @@
 
     <form action="reply" name="reply" id="reply" method="post">
       <table>
-      <input type="hidden" name="bid" value="${bDto.bid}">
-      <input type="hidden" name="bgroup" value="${bDto.bgroup}">
-      <input type="hidden" name="bstep" value="${bDto.bstep}">
-      <input type="hidden" name="bindent" value="${bDto.bindent}">
+      <input type="hidden" name="bid" value="${map.bDto.bid}">
+      <input type="hidden" name="bgroup" value="${map.bDto.bgroup}">
+      <input type="hidden" name="bstep" value="${map.bDto.bstep}">
+      <input type="hidden" name="bindent" value="${map.bDto.bindent}">
         <colgroup>
           <col width="15%">
           <col width="85%">
@@ -45,7 +45,7 @@
         <tr>
           <th>제목</th>
           <td>
-            <input type="text" name="btitle" value="<답변> ${bDto.btitle}">
+            <input type="text" name="btitle" value="<답변> ${map.bDto.btitle}">
           </td>
         </tr>
         <tr>
@@ -55,7 +55,7 @@
 
 ---------------------------
 [답글]
-${bDto.bcontent }
+${map.bDto.bcontent }
 </textarea>
           </td>
         </tr>
