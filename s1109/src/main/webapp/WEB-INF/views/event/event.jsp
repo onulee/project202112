@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -158,21 +159,21 @@
 						<ul>
 							<!-- 반복 -->
 							<c:set var="now" value="<%=new java.util.Date()%>" />
-							<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />
-							<fmt:formatDate value="${eventDto.endDate}" pattern="yyyy-MM-dd" var="endDate"/> 
+							<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowTime" />
 							<c:forEach items="${list}" var="eventDto">
 							<c:if test="${eventDto.estatus==1}">
-							<c:if test="${eventDto.endDate > now }">
-							<li>
-								<div class="img">
-									<a href="event_view?eventNo=${eventDto.eventNo}"><img src="/upload/${eventDto.eupload}" alt="진행중 이벤트" /></a>
-								</div>
-								<div class="txt">
-									<div class="subject">${eventDto.etitle}</div>
-									<div class="day">이벤트 기간 : ${eventDto.startDate} ~ ${eventDto.endDate}</div>
-								</div>
-							</li>
-							</c:if>
+							<fmt:formatDate value="${eventDto.endDate}" pattern="yyyy-MM-dd" var="endDate"/> 
+								<c:if test="${endDate > nowTime }">
+								<li>
+									<div class="img">
+										<a href="event_view?eventNo=${eventDto.eventNo}"><img src="/upload/${eventDto.eupload}" alt="진행중 이벤트" /></a>
+									</div>
+									<div class="txt">
+										<div class="subject">${eventDto.etitle}</div>
+										<div class="day">이벤트 기간 : ${eventDto.startDate} ~ ${eventDto.endDate}</div>
+									</div>
+								</li>
+								</c:if>
 							</c:if>
 							</c:forEach>
 							<!-- //반복 -->
