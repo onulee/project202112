@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.site.ex.dto.CommentDto;
+import com.site.ex.dto.EventDto;
 import com.site.ex.mapper.EventMapper;
 
 @Service
@@ -43,6 +44,27 @@ public class EventServiceImpl implements EventService {
 	public int commentDelete(int cno) {
 		int result = eventMapper.deleteComment(cno);
 		return result;
+	}
+
+	@Override //댓글수정저장
+	public CommentDto commentSave(CommentDto commentDto) {
+		//댓글 수정저장
+		eventMapper.updateComment(commentDto);
+		//댓글1개 가져오기
+		CommentDto cDto = eventMapper.selectCommentOne(commentDto.getCno());
+		return cDto;
+	}
+
+	@Override //eventBoard 전체 게시글 가져오기
+	public List<EventDto> eventBoardList() {
+		List<EventDto> list = eventMapper.selectEventBoard();
+		return list;
+	}
+
+	@Override //eventBoard 1개 게시글 가져오기
+	public EventDto event_view(int eventNo) {
+		EventDto eDto = eventMapper.selectEventOne(eventNo);
+		return eDto;
 	}
 
 }

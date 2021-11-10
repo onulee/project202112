@@ -21,70 +21,12 @@
 <script type="text/javascript" src="../js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="../js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="../js/jquery.anchor.js"></script>
-<!--[if lt IE 9]>
-<script type="text/javascript" src="../js/html5.js"></script>
-<script type="text/javascript" src="../js/respond.min.js"></script>
-<![endif]-->
 <script type="text/javascript">
-$(document).ready(function() {
-	
-
-
-});
+   var today = new Date(); 
+   var str_today = today.toLocaleDateString();
 </script>
 </head>
 <body>
-
-
-
-<!--익스레이어팝업-->
-<div id="ieUser" style="display:none">
-	<div class="iewrap">	
-		<p class="img"><img src="../images/ico/ico_alert.gif" alt="알림" /></p>
-		<p class="txt">IE버전이 낮아 홈페이지 이용에 불편함이 있으므로 <strong>IE9이상이나 다른 브라우저</strong>를 이용해 주세요. </p>
-		<ul>
-			<li><a href="http://windows.microsoft.com/ko-kr/internet-explorer/download-ie" target="_blank"><img src="../images/ico/ico_ie.gif" alt="IE 최신브라우저 다운" ></a></li>
-			<li><a href="https://www.google.com/intl/ko/chrome/browser" target="_blank"><img src="../images/ico/ico_chrome.gif" alt="IE 최신브라우저 다운" ></a></li>
-			<li><a href="http://www.mozilla.org/ko/firefox/new" target="_blank"><img src="../images/ico/ico_mozila.gif" alt="MOZILA 최신브라우저 다운" ></a></li>
-			<li><a href="http://www.apple.com/safari" target="_blank"><img src="../images/ico/ico_safari.gif" alt="SAFARI 최신브라우저 다운" ></a></li>
-			<li><a href="http://www.opera.com/ko/o/ie-simple" target="_blank"><img src="../images/ico/ico_opera.gif" alt="OPERA 최신브라우저 다운" ></a></li>		
-		</ul>
-		<p class="btn" onclick="msiehide();"><img src="../images/ico/ico_close.gif" alt="닫기" /></p>
-	</div>
-</div>
-<!--//익스레이어팝업-->
-<!--IE 6,7,8 사용자에게 브라우저 업데이터 설명 Div 관련 스크립트-->
- <script type="text/javascript">
-
-     var settimediv = 200000; //지속시간(1000= 1초)
-     var msietimer;
-
-     $(document).ready(function () {
-         msiecheck();
-     });
-
-     var msiecheck = function () {
-         var browser = navigator.userAgent.toLowerCase();
-         if (browser.indexOf('msie 6') != -1 ||
-                browser.indexOf('msie 7') != -1 ||
-				 browser.indexOf('msie 8') != -1) {
-             msieshow();			 
-         }
-         else {
-             msiehide();
-         }
-     }
-
-     var msieshow = function () {
-        $("#ieUser").show();
-        msietimer = setTimeout("msiehide()", settimediv);
-     }
-
-     var msiehide = function () {
-		$("#ieUser").hide();
-        clearTimeout(msietimer);
-     }
-</script>
 
 <div id="allwrap">
 <div id="wrap">
@@ -187,7 +129,6 @@ $(document).ready(function() {
 
 	<!-- container -->
 	<div id="container">
-
 		<div id="location">
 			<ol>
 				<li><a href="#">HOME</a></li>
@@ -216,26 +157,26 @@ $(document).ready(function() {
 					<div class="eventList">
 						<ul>
 							<!-- 반복 -->
+							<c:set var="now" value="<%=new java.util.Date()%>" />
+							<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />
+							<fmt:formatDate value="${eventDto.endDate}" pattern="yyyy-MM-dd" var="endDate"/> 
+							<c:forEach items="${list}" var="eventDto">
+							<c:if test="${eventDto.estatus==1}">
+							<c:if test="${eventDto.endDate > now }">
 							<li>
 								<div class="img">
-									<a href="event_view?bid=1"><img src="../images/img/sample_event.jpg" alt="진행중 이벤트" /></a>
+									<a href="event_view?eventNo=${eventDto.eventNo}"><img src="/upload/${eventDto.eupload}" alt="진행중 이벤트" /></a>
 								</div>
 								<div class="txt">
-									<div class="subject">까페모리 봄바람 커피한잔 30% 할인 이벤트!!</div>
-									<div class="day">이벤트 기간 : 2014-04-01 ~ 2014-04-29</div>
+									<div class="subject">${eventDto.etitle}</div>
+									<div class="day">이벤트 기간 : ${eventDto.startDate} ~ ${eventDto.endDate}</div>
 								</div>
 							</li>
+							</c:if>
+							</c:if>
+							</c:forEach>
 							<!-- //반복 -->
 
-							<li>
-								<div class="img">
-									<a href="event_view?bid=2"><img src="../images/img/sample_event.jpg" alt="진행중 이벤트" /></a>
-								</div>
-								<div class="txt">
-									<div class="subject">까페모리 봄바람 커피한잔 30% 할인 이벤트!!</div>
-									<div class="day">이벤트 기간 : 2014-04-01 ~ 2014-04-29</div>
-								</div>
-							</li>
 						</ul>
 					</div>
 					<!-- //list -->

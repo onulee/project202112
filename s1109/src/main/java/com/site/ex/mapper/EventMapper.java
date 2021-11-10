@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.site.ex.dto.CommentDto;
+import com.site.ex.dto.EventDto;
 
 @Mapper
 public interface EventMapper {
@@ -23,5 +24,14 @@ public interface EventMapper {
 
 	//댓글 삭제
 	int deleteComment(int cno);
+
+	//댓글 수정저장
+	void updateComment(CommentDto commentDto);
+
+	//eventBoard 전체 게시글 가져오기
+	List<EventDto> selectEventBoard();
+
+	//eventBoard 1개 게시글 가져오기
+	EventDto selectEventOne(int eventNo);
 
 }

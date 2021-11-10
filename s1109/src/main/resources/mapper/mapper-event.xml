@@ -4,6 +4,17 @@
 
 <mapper namespace="com.site.ex.mapper.EventMapper">
 
+    <!-- eventBoard 전체 게시글 가져오기 -->
+	<select id="selectEventBoard" resultType="com.site.ex.dto.EventDto">
+		select * from eventBoard order by eventNo desc
+	</select>
+	
+    <!-- eventBoard 1개 게시글 가져오기 -->
+	<select id="selectEventOne" resultType="com.site.ex.dto.EventDto">
+		select * from eventBoard where eventNo=#{eventNo}
+	</select>
+
+
     <!-- event게시글에 해당되는 하단댓글 가져오기 -->
 	<select id="selectCommmentList" resultType="com.site.ex.dto.CommentDto">
 		select * from cboard where bid=#{bid} order by cno desc
@@ -33,5 +44,11 @@
 	<delete id="deleteComment">
 	   delete cboard where cno=#{cno}
 	</delete>
+	
+	<!-- 댓글 수정저장 -->
+	<update id="updateComment">
+	   update cboard set ccontent=#{ccontent},cdate=sysdate 
+	   where cno=#{cno}
+	</update>
 </mapper>	
 	

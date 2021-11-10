@@ -3,6 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
 <!DOCTYPE html>
 <html>
+<c:if test="${session_id==null}">
+   <script type="text/javascript">
+      alert("로그인을 하셔야 이용이 가능합니다.");
+      location.href="../member/login";
+   </script>
+</c:if>
 <head>
 <title> JARDIN SHOP </title>
 <meta charset="UTF-8" />
@@ -151,21 +157,20 @@
 			<div id="contents">
 				<div id="mypage">
 					<h2><strong>진행중 이벤트</strong><span>쟈뎅샵의 특별한 혜택이 가득한 이벤트에 참여해 보세요.</span></h2>
-					
 					<div class="viewDivMt">
 						<div class="viewHead">
 							<div class="subject">
 								<ul>
-									<li>까페모리 봄바람 커피한잔 30% 할인 이벤트!!</li>
+									<li>${eDto.etitle}</li>
 								</ul>
 							</div>
 							<div class="day">
-								<p class="txt">이벤트 기간<span>2014-04-01 ~ 2014-04-29</span></p>
+								<p class="txt">이벤트 기간<span>${eDto.startDate} ~ ${eDto.endDate}</span></p>
 							</div>
 						</div>
 
 						<div class="viewContents">
-							<img src="../images/img/sample_event_view.jpg" alt="" />
+							<img src="/upload/${eDto.eupload2}" alt="${eDto.econtent}" />
 						</div>
 					</div>
 
@@ -196,8 +201,8 @@
 					</div>
 					<!-- //이전다음글 -->
 <script type="text/javascript">
-  var userId = "${session_id}";
-  var bid = "${param.bid}";
+  var userId = "${session_id}";    //유저ID
+  var bid = "${param.eventNo}";        //게시글 번호
   
   //댓글 삭제
   function commentDeleteBtn(cno){
@@ -246,7 +251,7 @@
  		     chtml += "<li class='txt'>"+data.cDto.ccontent+"</li>";
  		     if(userId == data.cDto.id){
 	 		     chtml += "<li class='btn'>";
-	 		     chtml += "<a class='rebtn'>수정</a>&nbsp;";
+	 		     chtml += "<a onclick='commentModifyBtn("+data.cDto.cno+",\""+data.cDto.id+"\",\""+data.cDto.ccontent+"\",\""+data.cDto.cdate+"\")' class='rebtn'>수정</a>&nbsp;";
 	 		     chtml += "<a onclick='commentDeleteBtn("+data.cDto.cno+")'  class='rebtn'>삭제</a>";
 	 		     chtml += "</li></ul>";
  		     }
@@ -255,7 +260,6 @@
  		     $("#cCount").text(data.cCount);
  		     $(".replynum").val("");
  		     $(".replyType").val("");
- 		 
  		 },
  		 error:function(){
  			 alert("실패");
@@ -265,17 +269,60 @@
   
   //댓글수정 폼으로 변경
   function commentModifyBtn(cno,id,ccontent,cdate){
-	  alert("결과 : "+cno+","+id+","+ccontent+","+cdate);
+	  alert("댓글을 수정합니다.");
 	  var chtml="";
 	  chtml += "<li class='name'>"+id+"<span>&nbsp;["+cdate+"]</span></li>";
-	  chtml += "<li class='txt'><textarea class='replyType'>"+ccontent+"</textarea></li>";
+	  chtml += "<li class='txt'><textarea id='updateTxt' class='replyType'>"+ccontent+"</textarea></li>";
 	  chtml += "<li class='btn'>";
-	  chtml += "<a class='rebtn'>저장</a>&nbsp;";
-	  chtml += "<a class='rebtn'>취소</a>";
+	  chtml += "<a onclick='commentSaveBtn("+cno+",\""+id+"\",\""+ccontent+"\",\""+cdate+"\")' class='rebtn'>저장</a>&nbsp;";
+	  chtml += "<a onclick='commentCancelBtn("+cno+",\""+id+"\",\""+ccontent+"\",\""+cdate+"\")' class='rebtn'>취소</a>";
+	  chtml += "</li>";
+	  $("#"+cno).html(chtml);
+  } 
+  
+  //댓글수정저장
+  function commentSaveBtn(cno,id,ccontent,cdate){
+	  alert("댓글 수정을 저장합니다.");
+	  $.ajax({
+		 url:"./commentSave",
+ 		 type:"post",
+ 		 data:{
+ 			 "cno":cno,
+ 			 "id":id,
+ 			 "bid":bid,
+ 			 "ccontent":$("#updateTxt").val()
+ 		 },
+ 		 success:function(data){   //data : commentDto
+ 			 //alert("결과 : "+data.cno+","+data.bid+","+data.id);
+ 		     var chtml="";
+ 		     chtml += "<li class='name'>"+data.id+"<span>&nbsp;[&nbsp;"+data.cdate+"]</span></li>";
+ 		     chtml += "<li class='txt'>"+data.ccontent+"</li>";
+	 		 chtml += "<li class='btn'>";
+	 		 chtml += "<a onclick='commentModifyBtn("+data.cno+",\""+data.id+"\",\""+data.ccontent+"\",\""+data.cdate+"\")' class='rebtn'>수정</a>&nbsp;";
+	 		 chtml += "<a onclick='commentDeleteBtn("+data.cno+")'  class='rebtn'>삭제</a>";
+	 		 chtml += "</li>";
+ 		     //댓글수정 
+ 		    $("#"+cno).html(chtml);
+ 		 },
+ 		 error:function(){
+ 			 alert("실패");
+ 		 }
+	  });//ajax
+  }//댓글수정저장
+  
+  //댓글 취소
+  function commentCancelBtn(cno,id,ccontent,cdate){
+	  alert("댓글 수정을 취소합니다.");
+	  var chtml="";
+	  chtml += "<li class='name'>"+id+"<span>&nbsp;[&nbsp;"+cdate+"]</span></li>";
+      chtml += "<li class='txt'>"+ccontent+"</li>";
+	  chtml += "<li class='btn'>";
+	  chtml += "<a onclick='commentModifyBtn("+cno+",\""+id+"\",\""+ccontent+"\",\""+cdate+"\")'  class='rebtn'>수정</a>&nbsp;";
+	  chtml += "<a onclick='commentDeleteBtn("+cno+")' class='rebtn'>삭제</a>";
 	  chtml += "</li>";
 	  
 	  $("#"+cno).html(chtml);
-  }  
+  } //댓글 취소
   
 </script>
 
@@ -297,13 +344,24 @@
 					    <c:forEach items="${clist}" var="commentDto">
 					    <ul id="${commentDto.cno}">
 							<li class="name">${commentDto.id}<span>&nbsp;[${commentDto.cdate}]</span></li>
-							<li class="txt">${commentDto.ccontent}</li>
+							<c:if test="${session_id != commentDto.id}">
+							  <c:if test="${commentDto.cpw !=null }">
+								  <li class="txt">
+									<a href="password.html" class="passwordBtn"><span class="orange">※ 비밀글입니다.</span></a>
+								  </li>
+							  </c:if>
+							  <c:if test="${commentDto.cpw ==null }">
+							    <li class="txt">${commentDto.ccontent}</li>
+							  </c:if>
+							</c:if>
 							<c:if test="${session_id == commentDto.id}">
+							    <li class="txt">${commentDto.ccontent}</li>
 								<li class="btn">
 									<a onclick="commentModifyBtn(${commentDto.cno},'${commentDto.id}','${commentDto.ccontent}','${commentDto.cdate}')" class="rebtn">수정</a> 
 									<a onclick="commentDeleteBtn(${commentDto.cno})" class="rebtn">삭제</a>
 								</li>
 							</c:if>
+							
 						</ul>
 					    </c:forEach>
 					

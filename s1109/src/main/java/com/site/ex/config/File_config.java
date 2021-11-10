@@ -9,7 +9,8 @@ public class File_config  implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		// 파일저장 위치
+		// upload 파일저장 위치
 		registry.addResourceHandler("/upload/**").addResourceLocations("file:///c:/fileSave/");
+		
 	}
 }
