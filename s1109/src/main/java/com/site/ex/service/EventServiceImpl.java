@@ -1,6 +1,8 @@
 package com.site.ex.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,27 @@ public class EventServiceImpl implements EventService {
 		List<CommentDto> clist = eventMapper.selectCommmentList(bid);
 		//댓글개수
 		return clist;
+	}
+
+	@Override //댓글추가
+	public Map<String,Object> commentWrite(CommentDto commentDto) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		//댓글저장
+		eventMapper.insertCommentWrite(commentDto);
+		System.out.println("commentDto cno : "+commentDto.getCno());
+		//댓글1개 가져오기
+		CommentDto cDto = eventMapper.selectCommentOne(commentDto.getCno());
+		//댓글 개수
+		int cCount = eventMapper.selectCount(commentDto);
+		map.put("cDto", cDto);
+		map.put("cCount", cCount);
+		return map;
+	}
+
+	@Override //댓글삭제
+	public int commentDelete(int cno) {
+		int result = eventMapper.deleteComment(cno);
+		return result;
 	}
 
 }

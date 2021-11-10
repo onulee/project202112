@@ -1,6 +1,7 @@
 package com.site.ex.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,14 +39,20 @@ public class EventController {
 		return "event/event_view";
 	}
 	
-	@ResponseBody
+	@ResponseBody //댓글추가
 	@RequestMapping("/commentWrite")
-	public String commentWrite(CommentDto commentDto) {
-		//event 전체 게시글 가져오기
+	public Map<String,Object> commentWrite(CommentDto commentDto) {
 		System.out.println("commentDto bid :"+commentDto.getBid());
-		System.out.println("commentDto id :"+commentDto.getId());
-		
-		return "success";
+		Map<String,Object> map = eventService.commentWrite(commentDto);
+		return map;
+	}
+	
+	@ResponseBody //댓글삭제
+	@RequestMapping("/commentDelete")
+	public int commentDelete(@RequestParam int cno) {
+		System.out.println("cno :"+cno);
+		int result = eventService.commentDelete(cno);
+		return result;
 	}
 	
 	

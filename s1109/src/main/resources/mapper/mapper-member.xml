@@ -2,12 +2,14 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.site.ex.mapper.EventMapper">
+<mapper namespace="com.site.ex.mapper.MemberMapper">
 
-    <!-- event게시글에 해당되는 하단댓글 가져오기 -->
-	<select id="selectCommmentList" resultType="com.site.ex.dto.CommentDto">
-		select * from cboard where bid=#{bid}
+    <!-- 전체회원 정보 -->
+	<select id="selectLogin" resultType="com.site.ex.dto.MemberDto">
+		select * from member where id=#{id} and pw=#{pw}
 	</select>
+	
+	
 	
 </mapper>	
 	

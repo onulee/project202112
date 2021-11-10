@@ -198,9 +198,36 @@
 <script type="text/javascript">
   var userId = "${session_id}";
   var bid = "${param.bid}";
+  
+  //댓글 삭제
+  function commentDeleteBtn(cno){
+	  //alert("삭제 번호 : "+cno);
+	  if(confirm("댓글을 삭제하시겠습니까?")){
+		  $.ajax({
+			 url:"./commentDelete",
+	 		 type:"post",
+	 		 data:{
+	 			 "cno":cno
+	 		 },
+	 		 success:function(data){   //data : commentDto
+	 		     //댓글삭제
+	 		     //alert("결과 : "+data);
+	 		     $("#"+cno).remove();
+	 		     var num = $("#cCount").text(); 
+	 		     $("#cCount").text(num-1);
+	 		 },
+	 		 error:function(){
+	 			 alert("실패");
+	 		 }
+		  });
+	  }else{
+		  return false;
+	  }
+  }//댓글 삭제
+  
   //댓글 쓰기
   function commentWriteBtn(){
-	  alert("댓글을 저장합니다.");
+	  //alert("댓글을 저장합니다.");
 	  $.ajax({
 		 url:"./commentWrite",
  		 type:"post",
@@ -210,24 +237,53 @@
  			 "cpw":$(".replynum").val(),
  			 "ccontent":$(".replyType").val()
  		 },
- 		 success:function(data){
- 			 alert("결과 : "+data);
+ 		 success:function(data){   //data : commentDto
+ 			 //alert("결과 : "+data.cno+","+data.bid+","+data.id);
+ 		     alert("댓글이 등록되었습니다.");
+ 		     var chtml="";
+ 		     chtml += "<ul id="+data.cDto.cno+">";
+ 		     chtml += "<li class='name'>"+data.cDto.id+"<span>&nbsp;[&nbsp;"+data.cDto.cdate+"]</span></li>";
+ 		     chtml += "<li class='txt'>"+data.cDto.ccontent+"</li>";
+ 		     if(userId == data.cDto.id){
+	 		     chtml += "<li class='btn'>";
+	 		     chtml += "<a class='rebtn'>수정</a>&nbsp;";
+	 		     chtml += "<a onclick='commentDeleteBtn("+data.cDto.cno+")'  class='rebtn'>삭제</a>";
+	 		     chtml += "</li></ul>";
+ 		     }
+ 		     //댓글추가 
+ 		     $(".replyBox").prepend(chtml);
+ 		     $("#cCount").text(data.cCount);
+ 		     $(".replynum").val("");
+ 		     $(".replyType").val("");
+ 		 
  		 },
- 		 error:function(textStatus){
+ 		 error:function(){
  			 alert("실패");
  		 }
-	  });
-  }
-  $(function(){
+	  });//ajax
+  }//댓글 쓰기
+  
+  //댓글수정 폼으로 변경
+  function commentModifyBtn(cno,id,ccontent,cdate){
+	  alert("결과 : "+cno+","+id+","+ccontent+","+cdate);
+	  var chtml="";
+	  chtml += "<li class='name'>"+id+"<span>&nbsp;["+cdate+"]</span></li>";
+	  chtml += "<li class='txt'><textarea class='replyType'>"+ccontent+"</textarea></li>";
+	  chtml += "<li class='btn'>";
+	  chtml += "<a class='rebtn'>저장</a>&nbsp;";
+	  chtml += "<a class='rebtn'>취소</a>";
+	  chtml += "</li>";
 	  
-  });
+	  $("#"+cno).html(chtml);
+  }  
+  
 </script>
 
 					<!-- 댓글-->
 					<div class="replyWrite">
 						<ul>
 							<li class="in">
-								<p class="txt">총 <span class="orange">${clistCount}</span> 개의 댓글이 달려있습니다.</p>
+								<p class="txt">총 <span id="cCount" class="orange">${clistCount}</span> 개의 댓글이 달려있습니다.</p>
 								<p class="password">비밀번호&nbsp;&nbsp;<input type="password" class="replynum" /></p>
 								<textarea class="replyType"></textarea>
 							</li>
@@ -237,14 +293,17 @@
 					</div>
 
 					<div class="replyBox">
+					    <!-- 댓글추가부분 -->
 					    <c:forEach items="${clist}" var="commentDto">
-					    <ul>
-							<li class="name">${commentDto.id} <span>&nbsp;[${commentDto.cdate}]</span></li>
+					    <ul id="${commentDto.cno}">
+							<li class="name">${commentDto.id}<span>&nbsp;[${commentDto.cdate}]</span></li>
 							<li class="txt">${commentDto.ccontent}</li>
-							<li class="btn">
-								<a href="#" class="rebtn">수정</a>
-								<a href="#" class="rebtn">삭제</a>
-							</li>
+							<c:if test="${session_id == commentDto.id}">
+								<li class="btn">
+									<a onclick="commentModifyBtn(${commentDto.cno},'${commentDto.id}','${commentDto.ccontent}','${commentDto.cdate}')" class="rebtn">수정</a> 
+									<a onclick="commentDeleteBtn(${commentDto.cno})" class="rebtn">삭제</a>
+								</li>
+							</c:if>
 						</ul>
 					    </c:forEach>
 					
