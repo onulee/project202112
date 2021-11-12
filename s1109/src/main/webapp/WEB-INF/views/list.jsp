@@ -27,18 +27,53 @@
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script type="text/javascript">
-      function apiBtn(){
-    	  alert("공공데이터 가져오기");
-    	  alert($("#searchNo").val());
+      $(function(){
+    	  alert("공공데이터에 접속합니다.");
     	  $.ajax({
    			 url:"./dataApi",
    	 		 type:"post",
    	 		 dataType:"json",  //xml일때는 xml로 변경
    	 		 data:{
-   	 			 "pageNo":$("#searchNo").val()
+   	 			 "searchData":$("#searchData").val(),
+   	 			 "category":$("#category").val()
    	 		 },
    	 		 success:function(data){   
-   	 		     alert("갤러리 포토그래퍼 : "+data.response.body.items.item[0].galPhotographer);
+   	 		     //alert("갤러리 포토그래퍼 : "+data.response.body.items.item[0].galPhotographer);
+   	 			 var arr = data.response.body.items.item;
+   	 		     var chtml = "";
+   	 			 for(var i in arr){
+	    	         chtml += "<tr>";
+	    	         chtml += "<td><span class='table-notice'>"+arr[i].galContentId+"</span></td>";
+	    	         chtml += "<td class='table-title'>";
+	    	         chtml += "<img src=\""+arr[i].galWebImageUrl+"\">";
+	    	         chtml += "</td>";
+	    	         chtml += "<td>"+arr[i].galTitle+"</td>";
+	    	         chtml += "<td>"+arr[i].galPhotographer+"</td>";
+	    	         chtml += "<td>"+arr[i].galCreatedtime+"</td>";
+	    	         chtml += "</tr>";
+   	 			 }
+
+    	         $("#apiList").html(chtml); 
+    	         
+   	 		 },
+   	 		 error:function(){
+   	 			 alert("실패");
+   	 		 }
+    	});//ajax
+    	  
+      });
+      function apiBtn(){
+    	  alert("공공데이터에 접속합니다.");
+    	  $.ajax({
+   			 url:"./dataApi",
+   	 		 type:"post",
+   	 		 dataType:"json",  //xml일때는 xml로 변경
+   	 		 data:{
+   	 			 "searchData":$("#searchData").val(),
+   	 			 "category":$("#category").val()
+   	 		 },
+   	 		 success:function(data){   
+   	 		     //alert("갤러리 포토그래퍼 : "+data.response.body.items.item[0].galPhotographer);
    	 			 var arr = data.response.body.items.item;
    	 		     var chtml = "";
    	 			 for(var i in arr){
@@ -69,11 +104,11 @@
     <div class="wrapper">
       <form action="list" name="search" method="post">
         <select name="category" id="category" >
-          <option value="all">전체</option>
-          <option value="name">이름</option>
+          <option value="pageNo">페이지</option>
+          <option value="keyword">키워드</option>
         </select>
         <div class="title">
-          <input type="text" name="searchNo" id="searchNo" size="16" placeholder="원하는 페이지를 입력하세요.">
+          <input type="text" name="searchData" id="searchData" size="16" placeholder="검색버튼을 클릭하세요.">
         </div>
         <button type="button" onclick="apiBtn()"><i class="fas fa-search"></i></button>
       </form>

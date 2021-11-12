@@ -31,11 +31,19 @@ public class MainController {
 	
 	@RequestMapping("/dataApi") //공공데이터 연결
 	@ResponseBody
-	public String dataApi(@RequestParam int pageNo) throws Exception {
-		System.out.println("pageNo : "+pageNo);
-		//공공데이터 가져오기
-		String data = dataService.selectData(pageNo);
-		System.out.println("data :"+data);
+	public String dataApi(@RequestParam(defaultValue = "1") String searchData,@RequestParam String category) throws Exception {
+		System.out.println("searchData : "+searchData);
+		String data="";
+		switch (category) {
+			case "pageNo":
+				//공공데이터List 가져오기
+				data = dataService.selectData(searchData);
+			break;
+			case "keyword":
+				//공공데이터 검색으로 가져오기
+				data = dataService.selectSearchData(category,searchData);
+			break;
+		}
 		return data;
 	}
 
