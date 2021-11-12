@@ -21,5 +21,4 @@ public class BoardDto {
 	private int bstep;
 	private int bindent;
 	private String bupload;
-
 }

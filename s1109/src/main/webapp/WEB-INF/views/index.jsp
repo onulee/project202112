@@ -12,6 +12,7 @@
 	  <ul>
 		  <c:if test="${session_id == null }">
 		    <h3>로그인을 해주세요.</h3>
+		    <li><a href="/data">공공데이터</a></li>
 		    <li><a href="member/login">로그인</a></li>
 		    <li><a href="member/membership">회원가입</a></li>
 		  </c:if>
