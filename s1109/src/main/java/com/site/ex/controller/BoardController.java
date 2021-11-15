@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.site.ex.dto.BoardDto;
@@ -61,6 +65,39 @@ public class BoardController {
 		//게시글 쓰기
 		return "board/write_view";
 	}
+	
+	@RequestMapping("/summerUpload") //summernote파일 업로드
+	@ResponseBody
+	public String summerUpload(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//파일이름 가져오기
+		String newFileName="";
+		
+		// 업로드할 폴더 경로
+		String realFolder = "C:/fileSave/";//저장될 외부 파일 경로
+
+		// 업로드할 파일 이름
+		String originFileName = file.getOriginalFilename();
+		System.out.println("originFileName : " + originFileName);
+		long time = System.currentTimeMillis();
+		// 1개의 파일이름을 변형해서 다시 저장
+		newFileName = String.format("%d_%s", time, originFileName);
+
+		System.out.println("원본 파일명 : " + originFileName);
+		System.out.println("저장할 파일명 : " + newFileName);
+
+		String filepath = realFolder + "/" + newFileName;
+		System.out.println("파일경로 : " + filepath);
+
+		File f = new File(filepath);
+		file.transferTo(f);
+		System.out.println("/upload/"+newFileName);
+
+		return "/upload/"+newFileName;
+		
+	}//summerUpload
+	
+	
+	
 	
 	@RequestMapping("/write")
 	public String write(BoardDto boardDto,

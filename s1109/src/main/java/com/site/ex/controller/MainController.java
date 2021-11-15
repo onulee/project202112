@@ -37,7 +37,6 @@ public class MainController {
 		System.out.println("email : "+ email);
 		//이메일 전송메소드
 		String emailPw = emailService.sendEmail(id,email);
-		
 		return emailPw;
 	}
 	
