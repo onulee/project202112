@@ -1,5 +1,7 @@
 package com.site.ex.controller;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,17 +10,41 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.site.ex.service.DataService;
 import com.site.ex.service.DataServiceImpl;
+import com.site.ex.service.EmailService;
 
 @Controller
 public class MainController {
 	
 	@Autowired
 	DataService dataService;
+	@Autowired
+	EmailService emailService;
 	
 	@RequestMapping("/index")
 	public String index() {
 		return "index";
 	}
+	
+	@RequestMapping("/memberEmail")
+	public String memberEmail() {
+		return "memberEmail";
+	}
+	
+	@RequestMapping("/sendEmail")
+	@ResponseBody
+	public String sendEmail(@RequestParam String id,@RequestParam String email) throws Exception {
+		System.out.println("id : "+ id);
+		System.out.println("email : "+ email);
+		//이메일 전송메소드
+		String emailPw = emailService.sendEmail(id,email);
+		
+		return emailPw;
+	}
+	
+	
+	
+	
+	
 	
 	@RequestMapping("/data")
 	public String data() {
