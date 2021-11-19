@@ -9,8 +9,8 @@
   <title>뷰페이지</title>
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700,900&display=swap&subset=korean" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/read.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/read.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script type="text/javascript">
 	 function deleteBtn(bid){
@@ -56,7 +56,7 @@
 	      <tr>
 	        <td><strong>이미지다운로드</strong></td>
 	        <td colspan="3"><span class="separator">|</span>
-	        <a href="../upload/${map.bDto.bupload}" download>${map.bDto.bupload}</a>
+	        <a href="/upload/${map.bDto.bupload}" download>${map.bDto.bupload}</a>
 	        </td>
 	      </tr>
 	      <tr>
@@ -90,10 +90,10 @@
       </tr>
     </table>
 
-    <a href="./list?page=${nDto.page}&category=${nDto.category}&searchWord=${nDto.searchWord}"><div class="list">목록</div></a>
+    <a href="/board/list?page=${nDto.page}&category=${nDto.category}&searchWord=${nDto.searchWord}"><div class="list">목록</div></a>
     <a href="#"><div class="list" onclick="deleteBtn(${map.bDto.bid})" >삭제</div></a>
-    <a href="./modify_view?bid=${map.bDto.bid}"><div class="list">수정</div></a>
-    <a href="./reply_view?bid=${map.bDto.bid}"><div class="list">답변달기</div></a>
+    <a href="/board/modify_view?bid=${map.bDto.bid}"><div class="list">수정</div></a>
+    <a href="/board/reply_view?bid=${map.bDto.bid}"><div class="list">답변달기</div></a>
   </section>
 </body>
 </html>

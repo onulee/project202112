@@ -12,6 +12,7 @@
 	  <ul>
 		  <c:if test="${session_id == null }">
 		    <h3>로그인을 해주세요.</h3>
+		    <li><a href="/chartHtml">Chart보기</a></li>
 		    <li><a href="/memberEmail">회원가입_이메일인증</a></li>
 		    <li><a href="/list">공공데이터</a></li>
 		    <li><a href="member/login">로그인</a></li>

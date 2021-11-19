@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -38,13 +39,16 @@ public class BoardController {
 		return "board/list";
 	}
 	
-	@RequestMapping("/content_view")
-	public String content_view(@RequestParam int bid,
+	//@GetMapping(value = {"/content_view/{bid}","/content_view/{bid}/{page}"})
+	//@GetMapping(value = {"/content_view/{bid}/{page}","/content_view/{bid}/{page}/{category}/{searchWord}"})
+	@GetMapping({"/content_view/{bid}/{page}","/content_view/{bid}/{page}/{category}/{searchWord}"})
+	public String content_view(@PathVariable int bid,
 			NumberDto nDto,Model model) {
 		//게시글 1개 가져오기 : 뷰페이지
-		System.out.println("content_view bid : "+bid);
-		System.out.println("nDto bid : "+nDto.getCategory());
-		System.out.println("nDto bid : "+nDto.getSearchWord());
+		System.out.println("@PathVariable bid : "+bid);
+		System.out.println("content_view category : "+nDto.getPage());
+		System.out.println("content_view category : "+nDto.getCategory());
+		System.out.println("content_view searchWord : "+nDto.getSearchWord());
 		Map<String, Object> map = boardService.boardOne(bid);
 		model.addAttribute("map",map);
 		model.addAttribute("nDto",nDto);

@@ -66,7 +66,7 @@
 	          <c:forEach begin="1" end="${boardDto.bindent}">
 	             ▶
 	          </c:forEach>
-	          <a href="./content_view?bid=${boardDto.bid}&page=${map.nDto.page}&category=${map.nDto.category}&searchWord=${map.nDto.searchWord}">${boardDto.btitle}</a>
+	          <a href="./content_view/${boardDto.bid}/${map.nDto.page}/${map.nDto.category}/${map.nDto.searchWord}">${boardDto.btitle}</a>
 	        </td>
 	        <td>${boardDto.bname}</td>
 	        <td>${boardDto.bdate}</td>
