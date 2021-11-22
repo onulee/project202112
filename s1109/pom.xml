@@ -82,7 +82,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
-
+		
 		<!-- gson 데이터전송 -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>

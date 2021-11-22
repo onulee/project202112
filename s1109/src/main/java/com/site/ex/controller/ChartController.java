@@ -11,12 +11,28 @@ import com.google.gson.Gson;
 import com.site.ex.dto.ChartDto;
 import com.site.ex.service.ChartService;
 
-
 @Controller
 public class ChartController {
 	
 	@Autowired
 	ChartService chartService; 
+	
+	@RequestMapping("/chart01")
+	public String chart01() {
+		return "chart01";
+	}
+	
+	@RequestMapping("/chart01Send")
+	@ResponseBody
+	public List<ChartDto> chart01Send() {
+		//차트 전체데이터 가져오기
+		List<ChartDto> list = chartService.selectChartIncome();
+		return list;
+	}
+	
+	
+	
+	
 	
 	@RequestMapping("/chartHtml")
 	public String chartHtml() {
