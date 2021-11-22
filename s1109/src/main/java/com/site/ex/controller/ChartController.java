@@ -25,9 +25,6 @@ public class ChartController {
 		List<TotalDto> list = chartService.selectTestList();
 		System.out.println("개수 : "+list.size());
 		System.out.println("controller1 : "+list.get(0).getBoardDto().getBid());
-		System.out.println("controller3 : "+list.get(0).getMemberDto().getHobby());
-		System.out.println("controller2 : "+list.get(1).getBoardDto().getBid());
-		System.out.println("controller3 : "+list.get(1).getMemberDto().getHobby());
 		model.addAttribute("list",list);
 		return "testList";
 	}
