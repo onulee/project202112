@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.site.ex.dto.ChartDto;
+import com.site.ex.dto.TotalDto;
 import com.site.ex.service.ChartService;
 
 @Controller
@@ -16,6 +18,19 @@ public class ChartController {
 	
 	@Autowired
 	ChartService chartService; 
+	
+	@RequestMapping("/testList")
+	public String testList(Model model) {
+		//2개 테이블 조인
+		List<TotalDto> list = chartService.selectTestList();
+		System.out.println("개수 : "+list.size());
+		System.out.println("controller1 : "+list.get(0).getBoardDto().getBid());
+		System.out.println("controller3 : "+list.get(0).getMemberDto().getHobby());
+		System.out.println("controller2 : "+list.get(1).getBoardDto().getBid());
+		System.out.println("controller3 : "+list.get(1).getMemberDto().getHobby());
+		model.addAttribute("list",list);
+		return "testList";
+	}
 	
 	@RequestMapping("/chart01")
 	public String chart01() {
