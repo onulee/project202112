@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.site.ex.dto.BoardDto;
+import com.site.ex.dto.BoardDto2;
 import com.site.ex.dto.NumberDto;
 import com.site.ex.mapper.BoardMapper;
 
@@ -71,6 +72,12 @@ public class BoardServiceImpl implements BoardService {
 		int result = boardMapper.insertWrite(boardDto);
 		return result;
 	}
+	
+	@Override //2개 파일저장
+	public int write2(BoardDto2 boardDto2) {
+		int result = boardMapper.insertWrite2(boardDto2);
+		return result;
+	}
 
 	@Override //게시글 1개 저장 : 답변달기
 	public int reply(BoardDto boardDto) {
@@ -112,6 +119,8 @@ public class BoardServiceImpl implements BoardService {
 		NumberDto nDto=new NumberDto(page,limit,numLimit,listCount,maxPage,startPage,endPage,startrow,endrow,category,searchWord);
 		return nDto;
 	}
+
+	
 
 
 }//class

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.site.ex.dto.BoardDto;
+import com.site.ex.dto.BoardDto2;
 
 @Mapper
 public interface BoardMapper {
@@ -38,6 +39,9 @@ public interface BoardMapper {
 
 	//총게시글 수
 	int selectListCount(String category, String searchWord);
+
+	//2개 파일저장
+	int insertWrite2(BoardDto2 boardDto2);
 
 	
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.site.ex.dto.BoardDto;
+import com.site.ex.dto.BoardDto2;
 import com.site.ex.dto.NumberDto;
 
 public interface BoardService {
@@ -25,6 +26,9 @@ public interface BoardService {
 
 	//게시글 1개 저장 : 답변달기
 	int reply(BoardDto boardDto);
+
+	//2개 파일저장
+	int write2(BoardDto2 boardDto2);
 
 	
 

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.site.ex.dto.BoardDto;
+import com.site.ex.dto.BoardDto2;
 import com.site.ex.dto.NumberDto;
 import com.site.ex.service.BoardService;
 
@@ -100,9 +101,6 @@ public class BoardController {
 		
 	}//summerUpload
 	
-	
-	
-	
 	@RequestMapping("/write")
 	public String write(BoardDto boardDto,
 			@RequestPart MultipartFile file) {
@@ -131,6 +129,46 @@ public class BoardController {
 		System.out.println("write 결과 : "+result);
 		return "redirect:./list";
 	}
+	
+	//파일 2개이상 업로드 메소드 - write_view3.jsp
+	@RequestMapping("/write2")
+	public String write2(BoardDto2 boardDto2,
+			@RequestParam("files") List<MultipartFile> files) {
+		//게시글 1개 저장:insert
+		//파일이름 가져오기
+		String[] newFileName={"",""};
+		if(files.get(0).getSize() != 0) {
+			for(int i=0;i<files.size();i++) {
+				String originFileName = files.get(i).getOriginalFilename();
+				long time = System.currentTimeMillis(); //01241514545512
+				//중복방지 파일이름생성
+				newFileName[i] = String.format("%d_%s", time,originFileName); 
+				System.out.println("newFileName[i] : "+newFileName[i]);
+				//파일 저장 위치
+				String fileSaveUrl="C:/fileSave/";
+				// 파일생성 c:/fileSave/1.jpg
+				File f = new File(fileSaveUrl+newFileName[i]);
+				// 파일 업로드
+				try {
+					files.get(i).transferTo(f);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}//for
+		}
+		//파일이름 dto저장
+		boardDto2.setBupload(newFileName[0]);
+		boardDto2.setBupload2(newFileName[1]);
+		//2개 파일저장
+		int result = boardService.write2(boardDto2);
+		System.out.println("write 결과 : "+result);
+		return "redirect:./list";
+	}
+	
+	
+	
+	
+	
 	
 	@GetMapping("/modify_view")
 	public String modify_view(@RequestParam int bid,Model model) {

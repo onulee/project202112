@@ -112,6 +112,14 @@
 	    )
 	</insert>
 	
+	<!-- 게시글 저장하기 : 파일2개 업로드 -->
+	<insert id="insertWrite2">
+	    insert into mvcboard values(
+	    b_seq.nextval,#{bname},#{btitle},#{bcontent},sysdate,
+	    0,b_seq.currval,0,0,#{bupload},#{bupload2} 
+	    )
+	</insert>
+	
 	<!-- 답변달기추가 //부모게시글 아래 있는 답변글에 1씩 증가 -->
 	<update id="updateReplyPlus">
 	    update board set bstep=bstep+1
